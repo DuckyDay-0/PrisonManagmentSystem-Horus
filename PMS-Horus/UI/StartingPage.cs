@@ -24,7 +24,7 @@ namespace PMS_Horus.UI
 
                 Console.WriteLine("----PMS-Horus---Control-Panel----");
                 Console.WriteLine("1.Add Prisoner");
-
+                Console.WriteLine("2.Show All Prisoners");
                 int choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
@@ -32,6 +32,9 @@ namespace PMS_Horus.UI
                         await actions.AddPrisonerMenuAsync();
                         break;
 
+                    case 2:
+                        await actions.GetAllPrisoners();
+                        break;
                     case 0:
                         running = false;
                         break;

@@ -17,37 +17,32 @@ namespace PMS_Horus.UI
         {
             this.services = services ?? throw new ArgumentNullException(nameof(services));
         }
-        //public async Task AddPrisonerMenu()
-        //{
-        //    PrisonerActions prisonerActions = new PrisonerActions(services);
-        //   await prisonerActions.AddPrisonerMenuAsync();
-        //   //await AddPrisonerMenuAsync();
-        //}
+
         public async Task AddPrisonerMenuAsync()
         {
             Console.WriteLine("Add Prisoner ->");
             Console.WriteLine();
             try
             {
-                Console.WriteLine("Name: ");
+                Console.Write("Name: ");
                 string name = Console.ReadLine();
 
-                Console.WriteLine("Age: ");
+                Console.Write("Age: ");
                 int age = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Entry Date: ");
+                Console.Write("Entry Date: ");
                 DateOnly entryDate = DateOnly.Parse(Console.ReadLine());
 
-                Console.WriteLine("Sentence Lenght: ");
+                Console.Write("Sentence Lenght: ");
                 int sentenceLenght = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Crime Commited");
+                Console.Write("Crime Commited");
                 string crime = Console.ReadLine();
 
-                Console.WriteLine("Cell Block");
+                Console.Write("Cell Block");
                 string prisonBlock = Console.ReadLine();
 
-                Console.WriteLine("Cell");
+                Console.Write("Cell");
                 int prisoneCell = int.Parse(Console.ReadLine());
 
                 var prisoner = new Prisoner
@@ -83,9 +78,23 @@ namespace PMS_Horus.UI
         
         }
 
-        public static void GetAllPrisoners()
-        { 
-        
+        public async Task GetAllPrisoners()
+        {
+            var prisoners = await services.GetAllPrisonersAsync();
+
+            try
+            {
+                foreach (var prisoner in prisoners)
+                {
+                    Console.WriteLine($"ID: {prisoner.Id} | Name: {prisoner.Name} | Age: {prisoner.Crime} | Crime: {prisoner.Crime}");
+                    Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
+                    Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public static void SearchForPrisoner()

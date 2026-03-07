@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using PMS_Horus.Models;
 using System;
@@ -6,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Design;
 
 
 namespace PMS_Horus.Data
@@ -23,6 +24,10 @@ namespace PMS_Horus.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(@"Server=MSI\SQLEXPRESS;Database=HorusDB;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.EnableSensitiveDataLogging(false);
+                optionsBuilder.EnableDetailedErrors(false);
+
+                optionsBuilder.ConfigureWarnings(w => w.Ignore(RelationalEventId.CommandExecuted));
             }
         }
     }

@@ -20,6 +20,7 @@ namespace PMSHorus
                     services.AddScoped<IPrisonerServices, PrisonerService>();
                     services.AddTransient<StartingPage>();
                     services.AddTransient<PrisonerActions>();
+                    
                 })
                 .Build();
 
