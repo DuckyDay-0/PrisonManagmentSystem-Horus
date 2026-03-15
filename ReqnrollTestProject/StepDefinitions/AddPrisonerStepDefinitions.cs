@@ -1,8 +1,9 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using PMS_Horus.Data;
 using PMS_Horus.Models;
+using PMS_Horus.Services;
 using Reqnroll;
 
 namespace ReqnrollTestProject.StepDefinitions
@@ -10,92 +11,95 @@ namespace ReqnrollTestProject.StepDefinitions
     [Binding]
     public class AddPrisonerStepDefinitions
     {
-        private Prisoner prisoner;
-        private PrisonDBContext dbContext;
-        private int prisonCapacity = 100;
-        private bool isAdmin = true;
-        private Exception exception;
+        private PrisonDBContext context;
+        private string currentUserRole = "Admin";
+        private PrisonerService services;
+        private Exception lastException;
 
-        [Given("The prison capacity is {int}")]
-        public void GivenThePrisonCapacityIs(int prisonCapacity)
+        [Given("The system is ready for prisoner to be added")]
+        public void GivenTheSystemIsReadyForPrisonerToBeAdded()
         {
-            this.prisonCapacity = prisonCapacity;
-
+            string dbName = "TestDB" + Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<PrisonDBContext>()
-                .UseInMemoryDatabase(databaseName: "HorusDB")
+                .UseInMemoryDatabase(databaseName: dbName)
                 .Options;
 
-            dbContext = new PrisonDBContext(options);
+            context = new PrisonDBContext(options);            
         }
 
-        [When("I add a prisoner with Name {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}")]
-        public void WhenIAddAPrisonerWithNameAgeCrimeEntryDateSentenceLenghtReleaseDate(string name, int age, string crime, string entryDateStr, int sentenceLenght, string releaseDateStr)
+        [When("User adds a prisoner with FirsName {string}, LastName {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}, Prison Block {string}, Prison Cell {int}")]
+        public void WhenUserAddsAPrisonerWithFirsNameLastNameAgeCrimeEntryDateSentenceLenghtReleaseDatePrisonBlockPrisonCell(string firstName, string lastName, int age, string crime, string entryDate, int sentenceLenght, string releaseDate, string prisonBlock, int prisonCell)
         {
-            DateOnly entryDate = DateOnly.Parse(entryDateStr);
-            DateOnly releaseDate = DateOnly.Parse(releaseDateStr);
-            var currentPrisonerCount = dbContext.Prisoners.Count();
-
-            if (!isAdmin)
+            DateOnly entryDateParsed = DateOnly.Parse(entryDate);
+            services = new PrisonerService(context);
+            var prisoner = new Prisoner()
             {
-                throw new UnauthorizedAccessException("You are not authorized to perform this action!");
-            }
+                FirstName = firstName,
+                LastName = lastName,
+                Age = age,
+                Crime = crime,
+                EntryDate = entryDateParsed,
+                SentenceLenght = sentenceLenght,
+                ReleaseDate = entryDateParsed.AddYears(sentenceLenght),
+                PrisonBlock = prisonBlock,
+                PrisonCell = prisonCell
+            };
+            services.AddPrisonerAsync(prisoner, currentUserRole);
+        }
 
+        [Then("Prisoner will be added, an ID will be generated")]
+        public void ThenPrisonerWillBeAddedAnIDWillBeGenerated()
+        {
+            var prisoners = context.Prisoners.ToList();
+
+
+            Assert.NotEmpty(prisoners);
+            Assert.True(prisoners[0].Id > 0);
+        }
+
+
+        [Given("User is not with an {string} role")]
+        public void GivenUserIsNotWithAnRole(string admin)
+        {
+            currentUserRole = "Correctional Officer";
+        }
+
+
+        [Then("No prisoner will be added")]
+        public void NoPrisonerWillBeAdded()
+        {
+            var prisoners = context.Prisoners.ToList();
+
+            Assert.Empty(prisoners);
+        }
+
+
+        [Given("User is with an {string} role")]
+        public void GivenUserIsWithAnRole(string admin)
+        {
+            currentUserRole = "Admin";
+        }
+
+        [When("User tries to add a prisoner with no Name")]
+        public void WhenITryToAddAPrisonerWithNoName()
+        {
+            var prisoner = new Prisoner() { FirstName = "" };
             try
             {
-                if (currentPrisonerCount > prisonCapacity)
-                {
-                    throw new Exception("Prison Capacity Full! Please transfer to another prison!");
-                }
-                if (age < 0 && name.IsNullOrEmpty() && crime.IsNullOrEmpty() && sentenceLenght < 0)
-                {
-                    throw new Exception("Invalid input. Try again.");
-                }
-
-                prisoner = new Prisoner
-                {
-                    Name = name,
-                    Age = age,
-                    Crime = crime,
-                    EntryDate = entryDate,
-                    SentenceLenght = sentenceLenght,
-                    ReleaseDate = entryDate.AddYears(sentenceLenght)
-                };
-
-                dbContext.Add(prisoner);
-                dbContext.SaveChanges();
+                services.AddPrisonerAsync(prisoner, currentUserRole);
             }
-            catch (Exception ex)
+            catch (Exception e)
             { 
-                exception = ex;
+                lastException = e;
             }
         }
 
-        [Then("Prisoner will be added, an ID will be generated and the Current Prisoner Count will increase")]
-        public void ThenPrisonerWillBeAddedAnIDWillBeGeneratedAndTheCurrentPrisonerCountWillIncrease()
+        [Then("User receives an exception and no prisoner is added")]
+        public void ThenUserReceiveAnExceptionAndNoPrisonerIsAdded()
         {
-            Assert.NotNull(prisoner);
-            Assert.True(prisoner.Id > 0);
-            Assert.Null(exception);
-            Assert.Equal(1, dbContext.Prisoners.Count());
-        }
-
-            [Given("The prison capacity is {int} and im not authorized to add prisoners")]
-    public void GivenThePrisonCapacityIsAndImNotAuthorizedToAddPrisoners(int p0)
-    {
-        throw new PendingStepException();
-    }
-
-    [When("I try to add a prisoner with Name {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}")]
-    public void WhenITryToAddAPrisonerWithNameAgeCrimeEntryDateSentenceLenghtReleaseDate(string p0, int p1, string p2, string p3, int p4, string p5)
-    {
-        throw new PendingStepException();
-    }
-
-    [Then("I receive an exception message")]
-    public void ThenIReceiveAnExceptionMessage()
-    {
-        throw new PendingStepException();
-    }
-
+            Assert.NotNull(lastException);
+            var prisoners = context.Prisoners.ToList();
+            Assert.Empty(prisoners);          
+        }      
     }
 }

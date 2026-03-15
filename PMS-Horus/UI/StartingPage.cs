@@ -23,8 +23,12 @@ namespace PMS_Horus.UI
             {
 
                 Console.WriteLine("----PMS-Horus---Control-Panel----");
-                Console.WriteLine("1.Add Prisoner");
-                Console.WriteLine("2.Show All Prisoners");
+                Console.WriteLine();
+                Console.WriteLine("1.Add Prisoner.");
+                Console.WriteLine("2.Show All Prisoners.");
+                Console.WriteLine("3.Remove Prisoner.");
+                Console.WriteLine("4.Update Prisoner.");
+                Console.WriteLine("5.Search for Prisoner.");
                 int choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
@@ -35,9 +39,24 @@ namespace PMS_Horus.UI
                     case 2:
                         await actions.GetAllPrisoners();
                         break;
+
+                    case 3:
+                        await actions.RemovePrisonerAsync();
+                        break;
+
+                    case 4:
+                        await actions.UpdatePrisonerAsync();
+                        break;
+
+                    case 5:
+                        await actions.SearchForPrisoner();
+                        break;
                     case 0:
                         running = false;
                         break;
+
+                    default:
+                        throw new Exception("Invalid Data.");
                 }
             }
             

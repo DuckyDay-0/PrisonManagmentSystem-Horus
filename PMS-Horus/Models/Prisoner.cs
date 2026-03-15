@@ -9,7 +9,9 @@ namespace PMS_Horus.Models
     public class Prisoner
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int PersonalIDNumber { get; set; }
         public int Age { get; set; }
         public DateOnly EntryDate { get; set; }
         public int SentenceLenght { get; set; }
