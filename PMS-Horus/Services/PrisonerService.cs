@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMS_Horus.Data;
+using PMS_Horus.Interfaces;
 using PMS_Horus.Models;
 using Reqnroll.Formatters.PayloadProcessing.Cucumber;
 using System;
@@ -29,8 +30,16 @@ namespace PMS_Horus.Services
 
             prisoner.ReleaseDate = prisoner.EntryDate.AddYears(prisoner.SentenceLenght);
 
-            context.Prisoners.Add(prisoner);
-            await context.SaveChangesAsync();
+            try
+            {
+                context.Prisoners.Add(prisoner);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                
+                throw new InvalidDataException("There was a problem with the data being added. Try Again!");
+            }
         }
 
         public async Task DeletePrisonerAsync(int id, string currentUserRole)

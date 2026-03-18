@@ -20,5 +20,8 @@ namespace PMS_Horus.Models
         public string PrisonBlock { get; set; }
         public int PrisonCell { get; set; }
 
+        public MedicalRecord? MedicalRecord { get; set; }
+        public List<BehaviorRecord>? BehaviorRecords = new List<BehaviorRecord>();
+
     }
 }

@@ -15,6 +15,8 @@ namespace PMS_Horus.Data
     public class PrisonDBContext : DbContext
     {
         public DbSet<Prisoner> Prisoners { get; set; }
+        public DbSet<MedicalRecord> MedicalRecords { get; set; }
+        public DbSet<BehaviorRecord> BehaviorRecords { get; set; }
 
         public PrisonDBContext(DbContextOptions<PrisonDBContext> dbContextOptions) : base(dbContextOptions) { }
 

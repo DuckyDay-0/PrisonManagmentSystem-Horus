@@ -13,10 +13,9 @@ namespace ReqnrollTestProject.StepDefinitions
         private PrisonDBContext context;
         private PrisonerService service;
         private List<Prisoner> resultList;
+        private Prisoner result;
         private Exception lastException;
         private string exceptionMsg;
-        private string adminRole = "Admin";
-        private string officerRole = "Correctional Role";
 
 
         [Given("The system is ready to get prisoners")]
@@ -37,8 +36,8 @@ namespace ReqnrollTestProject.StepDefinitions
             var prisoners = new List<Prisoner>()
             {
                 new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212},
-                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212},
-                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212}
+                new Prisoner { FirstName = "Michel", LastName = "Thist", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212},
+                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212}
             };
 
             context.Prisoners.AddRange(prisoners);
@@ -73,5 +72,54 @@ namespace ReqnrollTestProject.StepDefinitions
             Assert.Contains("No prisoners are registered!", exceptionMsg);
         }
 
+        [When("User tries to get prisoner with ID {int}")]
+        public async Task WhenUserTriesToGetPrisonerWithID(int id)
+        {
+            id = 3;
+            try
+            {
+               result = await service.GetPrisonerByIDAsync(id);
+            }
+            catch(Exception e)
+            {
+                lastException = e;
+                exceptionMsg = lastException.Message;
+            }
+        }
+
+        [Then("The system will return prisoner with ID {int}")]
+        public void ThenTheSystemWillReturnPrisonerWithID(int id)
+        {
+            id = 3;
+            Assert.NotNull(result);
+            Assert.Equal(id, result.Id);
+            Assert.Equal("Doni", result.FirstName);
+        }
+
+        [When("User tries to get prisoner with Name {string}")]
+        public async Task WhenUserTriesToGetPrisonerWithName(string name)
+        {
+            name = "Michel";
+            try
+            {
+                result = await service.GetPrisonerByNameAsync(name);
+            }
+            catch(Exception e)
+            { 
+                lastException = e;
+                exceptionMsg = lastException.Message;
+            }
+        }
+
+        [Then("The system will return prisoner with Name {string} and ID {int}")]
+        public void ThenTheSystemWillReturnPrisonerWithNameAndID(string name, int id)
+        {
+            name = "Michel";
+            id = 2;
+
+            Assert.NotNull(result);
+            Assert.Equal(id, result.Id);
+            Assert.Equal($"{name}", result.FirstName);  
+        }
     }
 }

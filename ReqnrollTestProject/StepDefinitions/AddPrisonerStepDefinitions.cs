@@ -15,6 +15,7 @@ namespace ReqnrollTestProject.StepDefinitions
         private string currentUserRole = "Admin";
         private PrisonerService services;
         private Exception lastException;
+        private string exceptionMsg;
 
         [Given("The system is ready for prisoner to be added")]
         public void GivenTheSystemIsReadyForPrisonerToBeAdded()
@@ -24,7 +25,9 @@ namespace ReqnrollTestProject.StepDefinitions
                 .UseInMemoryDatabase(databaseName: dbName)
                 .Options;
 
-            context = new PrisonDBContext(options);            
+            context = new PrisonDBContext(options);
+
+            services = new PrisonerService(context);
         }
 
         [When("User adds a prisoner with FirsName {string}, LastName {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}, Prison Block {string}, Prison Cell {int}")]
@@ -81,16 +84,17 @@ namespace ReqnrollTestProject.StepDefinitions
         }
 
         [When("User tries to add a prisoner with no Name")]
-        public void WhenITryToAddAPrisonerWithNoName()
+        public async Task WhenITryToAddAPrisonerWithNoName()
         {
             var prisoner = new Prisoner() { FirstName = "" };
             try
             {
-                services.AddPrisonerAsync(prisoner, currentUserRole);
+                await services.AddPrisonerAsync(prisoner, currentUserRole);
             }
             catch (Exception e)
             { 
                 lastException = e;
+                exceptionMsg = lastException.Message;
             }
         }
 
@@ -98,6 +102,7 @@ namespace ReqnrollTestProject.StepDefinitions
         public void ThenUserReceiveAnExceptionAndNoPrisonerIsAdded()
         {
             Assert.NotNull(lastException);
+            Assert.Contains("There was a problem with the data being added. Try Again!", exceptionMsg);
             var prisoners = context.Prisoners.ToList();
             Assert.Empty(prisoners);          
         }      

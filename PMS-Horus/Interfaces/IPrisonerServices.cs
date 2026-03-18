@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PMS_Horus.Services
+namespace PMS_Horus.Interfaces
 {
     public interface IPrisonerServices
     {
