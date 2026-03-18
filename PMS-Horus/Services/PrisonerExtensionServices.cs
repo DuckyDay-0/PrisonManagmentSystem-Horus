@@ -19,14 +19,15 @@ namespace PMS_Horus.Services
         {
             this.context = context;
         }
-        public async Task AddMedicalRecord(MedicalRecord medicalRecord, int prisonerId, string currentUserRole)
+        public async Task AddMedicalRecordAsync(MedicalRecord medicalRecord, string currentUserRole)
         {
+            
             if (currentUserRole != "Medic" || currentUserRole != "Admin")
             {
                 throw new UnauthorizedAccessException("You are not authorized to perform this actions!");
             }
             //Check here
-            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == prisonerId);
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == medicalRecord.PrisonerId);
 
             try
             {
@@ -39,14 +40,14 @@ namespace PMS_Horus.Services
             }         
         }
 
-        public async Task<MedicalRecord> GetMedicalRecord(int prisonerId)
+        public async Task<MedicalRecord> GetMedicalRecordAsync(int prisonerId)
         {
-            return await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerID == prisonerId);
+            return await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerId == prisonerId);
         }
 
-        public async Task RemoveMedicalRecord(int prisonerId)
+        public async Task RemoveMedicalRecordAsync(int prisonerId)
         {
-            var medicalRecordPrisoner = await context.MedicalRecords.FirstOrDefaultAsync(p => p.PrisonerID == prisonerId);
+            var medicalRecordPrisoner = await context.MedicalRecords.FirstOrDefaultAsync(p => p.PrisonerId == prisonerId);
             try
             {
                 context.MedicalRecords.Remove(medicalRecordPrisoner);
@@ -58,7 +59,7 @@ namespace PMS_Horus.Services
             }
         }
 
-        public Task UpdateMedicalRecord(int prisonerId)
+        public Task UpdateMedicalRecordAsync(int prisonerId)
         {
             throw new NotImplementedException();
         }

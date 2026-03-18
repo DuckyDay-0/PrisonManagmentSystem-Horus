@@ -182,7 +182,7 @@ namespace PMS_Horus.UI
             {
                 foreach (var prisoner in prisonersResult)
                 {
-                    Console.WriteLine($"ID: {prisoner.Id} | Full Name: {prisoner.FirstName} {prisoner.LastName} | Age: {prisoner.Age} | Crime: {prisoner.Crime}");
+                    Console.WriteLine($"ID: {prisoner.PersonalIDNumber} | Full Name: {prisoner.FirstName} {prisoner.LastName} | Age: {prisoner.Age} | Crime: {prisoner.Crime}");
                     Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
                     Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
                 }

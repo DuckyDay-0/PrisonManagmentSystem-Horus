@@ -19,6 +19,7 @@ namespace PMSHorus
                 {
                     services.AddDbContext<PrisonDBContext>();
                     services.AddScoped<IPrisonerServices, PrisonerService>();
+                    services.AddScoped<IPrisonerExtensionServices, PrisonerExtensionServices>();
                     services.AddTransient<StartingPage>();
                     services.AddTransient<PrisonerActions>();
                     

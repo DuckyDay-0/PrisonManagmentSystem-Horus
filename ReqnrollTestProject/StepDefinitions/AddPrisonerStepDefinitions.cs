@@ -57,7 +57,7 @@ namespace ReqnrollTestProject.StepDefinitions
 
 
             Assert.NotEmpty(prisoners);
-            Assert.True(prisoners[0].Id > 0);
+            Assert.True(prisoners[0].PrisonerId > 0);
         }
 
 

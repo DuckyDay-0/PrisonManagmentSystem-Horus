@@ -14,6 +14,6 @@ namespace PMS_Horus.Models
         public string Severity { get; set; }
 
         public int PrisonerId { get; set; }
-        public Prisoner prisoner { get; set; }
+        public Prisoner Prisoner { get; set; }
     }
 }

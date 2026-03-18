@@ -75,9 +75,9 @@ namespace PMS_Horus.Services
            throw new NotImplementedException(); 
         }
 
-        public async Task<Prisoner> GetPrisonerByIDAsync(int id)
+        public async Task<Prisoner> GetPrisonerByIDAsync(int PersonalIDNumber)
         {
-            return await context.Prisoners.FindAsync(id);
+            return await context.Prisoners.FindAsync(PersonalIDNumber);
         }
 
         public async Task<Prisoner> GetPrisonerByNameAsync(string name)
@@ -136,6 +136,9 @@ namespace PMS_Horus.Services
                     case 6:
                         prisoner.EntryDate = DateOnly.Parse(newValue);
                         prisoner.ReleaseDate = prisoner.EntryDate.AddYears(prisoner.SentenceLenght);
+                        break;
+                    case 7:
+                        prisoner.PersonalIDNumber = int.Parse(newValue);
                         break;
 
                     default:

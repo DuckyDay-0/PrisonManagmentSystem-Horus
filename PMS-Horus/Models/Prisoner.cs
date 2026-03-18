@@ -8,7 +8,7 @@ namespace PMS_Horus.Models
 {
     public class Prisoner
     {
-        public int Id { get; set; }
+        public int PrisonerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int PersonalIDNumber { get; set; }
@@ -21,7 +21,7 @@ namespace PMS_Horus.Models
         public int PrisonCell { get; set; }
 
         public MedicalRecord? MedicalRecord { get; set; }
-        public List<BehaviorRecord>? BehaviorRecords = new List<BehaviorRecord>();
+        public List<BehaviorRecord>? BehaviorRecords { get; set; } = new List<BehaviorRecord>();
 
     }
 }

@@ -32,5 +32,26 @@ namespace PMS_Horus.Data
                 optionsBuilder.ConfigureWarnings(w => w.Ignore(RelationalEventId.CommandExecuted));
             }
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // 1. Направи PersonalIDNumber уникален (задължително!)
+            modelBuilder.Entity<Prisoner>()
+                .HasIndex(p => p.PersonalIDNumber)
+                .IsUnique();
+
+            // 2. Настройка на 1:1 за MedicalRecord (ползваме системното Id)
+            modelBuilder.Entity<Prisoner>()
+                .HasOne(p => p.MedicalRecord)
+                .WithOne(m => m.Prisoner)
+                .HasForeignKey<MedicalRecord>(m => m.PrisonerId); // Създай колона PrisonerId в MedicalRecord
+
+            // 3. Настройка на 1:Много за BehaviorRecord (ползваме системното Id)
+            modelBuilder.Entity<Prisoner>()
+                .HasMany(p => p.BehaviorRecords)
+                .WithOne(b => b.Prisoner)
+                .HasForeignKey(b => b.PrisonerId); // Създай колона PrisonerId в BehaviorRecord
+        }
+
+
     }
 }

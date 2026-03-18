@@ -9,12 +9,15 @@ namespace PMS_Horus.UI
 {
     internal class StartingPage
     {
-        IPrisonerServices service;
-        PrisonerActions actions;
-        public StartingPage(IPrisonerServices service, PrisonerActions actions) 
+        private IPrisonerServices service;
+        private IPrisonerExtensionServices extensionServices;
+        private PrisonerActions actions;
+        private PrisonerExtensionActions extensionsActions;
+        public StartingPage(IPrisonerServices service, PrisonerActions actions,IPrisonerExtensionServices extensionServices) 
         {
             this.service = service;
             this.actions = actions;
+            this.extensionServices = extensionServices;
         }
         public async Task RunAsync()
         {
@@ -22,26 +25,34 @@ namespace PMS_Horus.UI
             while (running)
             {
 
-                Console.WriteLine("----PMS-Horus---Control-Panel----");
+                Console.WriteLine("====Prison System 'Horus'====");
                 Console.WriteLine();
-                Console.WriteLine("1.Add Prisoner.");
-                Console.WriteLine("2.Show All Prisoners.");
-                Console.WriteLine("3.Remove Prisoner.");
-                Console.WriteLine("4.Update Prisoner.");
-                Console.WriteLine("5.Search for Prisoner.");
+                Console.WriteLine("1. Show All Prisoners.");
+                Console.WriteLine("2. Search for Prisoner.");
+                Console.WriteLine("3. Add Prisoner.");
+                Console.WriteLine("4. Update Prisoner.");
+                Console.WriteLine("5. Remove Prisoner.");
+                Console.WriteLine();
+                Console.WriteLine("=============================");
+                Console.WriteLine();
+                Console.WriteLine("6. Medical Record.");
+                Console.WriteLine("7. Behavior Record");
+                Console.WriteLine();
+                Console.WriteLine("=============================");
+
                 int choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
-                        await actions.AddPrisonerMenuAsync();
-                        break;
-
-                    case 2:
                         await actions.GetAllPrisoners();
                         break;
 
+                    case 2:
+                        await actions.SearchForPrisoner();
+                        break;
+
                     case 3:
-                        await actions.RemovePrisonerAsync();
+                        await actions.AddPrisonerMenuAsync();
                         break;
 
                     case 4:
@@ -49,8 +60,15 @@ namespace PMS_Horus.UI
                         break;
 
                     case 5:
-                        await actions.SearchForPrisoner();
+                        await actions.RemovePrisonerAsync();
                         break;
+
+                    case 6:
+                        extensionsActions.MedicalRecordActions();
+                        break;
+
+                    case 7:
+
                     case 0:
                         running = false;
                         break;

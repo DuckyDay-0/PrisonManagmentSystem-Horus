@@ -92,7 +92,7 @@ namespace ReqnrollTestProject.StepDefinitions
         {
             id = 3;
             Assert.NotNull(result);
-            Assert.Equal(id, result.Id);
+            Assert.Equal(id, result.PrisonerId);
             Assert.Equal("Doni", result.FirstName);
         }
 
@@ -118,7 +118,7 @@ namespace ReqnrollTestProject.StepDefinitions
             id = 2;
 
             Assert.NotNull(result);
-            Assert.Equal(id, result.Id);
+            Assert.Equal(id, result.PrisonerId);
             Assert.Equal($"{name}", result.FirstName);  
         }
     }

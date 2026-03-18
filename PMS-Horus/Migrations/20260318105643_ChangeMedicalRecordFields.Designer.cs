@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PMS_Horus.Data;
 
@@ -11,9 +12,11 @@ using PMS_Horus.Data;
 namespace PMS_Horus.Migrations
 {
     [DbContext(typeof(PrisonDBContext))]
-    partial class PrisonDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260318105643_ChangeMedicalRecordFields")]
+    partial class ChangeMedicalRecordFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,24 +62,16 @@ namespace PMS_Horus.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Allergies")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("BloodType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChronicConditions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PrisonerId")
+                    b.Property<int>("PrisonerID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrisonerId")
+                    b.HasIndex("PrisonerID")
                         .IsUnique();
 
                     b.ToTable("MedicalRecords");
@@ -84,11 +79,11 @@ namespace PMS_Horus.Migrations
 
             modelBuilder.Entity("PMS_Horus.Models.Prisoner", b =>
                 {
-                    b.Property<int>("PrisonerId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrisonerId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -124,40 +119,35 @@ namespace PMS_Horus.Migrations
                     b.Property<int>("SentenceLenght")
                         .HasColumnType("int");
 
-                    b.HasKey("PrisonerId");
-
-                    b.HasIndex("PersonalIDNumber")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("Prisoners");
                 });
 
             modelBuilder.Entity("PMS_Horus.Models.BehaviorRecord", b =>
                 {
-                    b.HasOne("PMS_Horus.Models.Prisoner", "Prisoner")
-                        .WithMany("BehaviorRecords")
+                    b.HasOne("PMS_Horus.Models.Prisoner", "prisoner")
+                        .WithMany()
                         .HasForeignKey("PrisonerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Prisoner");
+                    b.Navigation("prisoner");
                 });
 
             modelBuilder.Entity("PMS_Horus.Models.MedicalRecord", b =>
                 {
-                    b.HasOne("PMS_Horus.Models.Prisoner", "Prisoner")
+                    b.HasOne("PMS_Horus.Models.Prisoner", "prisoner")
                         .WithOne("MedicalRecord")
-                        .HasForeignKey("PMS_Horus.Models.MedicalRecord", "PrisonerId")
+                        .HasForeignKey("PMS_Horus.Models.MedicalRecord", "PrisonerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Prisoner");
+                    b.Navigation("prisoner");
                 });
 
             modelBuilder.Entity("PMS_Horus.Models.Prisoner", b =>
                 {
-                    b.Navigation("BehaviorRecords");
-
                     b.Navigation("MedicalRecord");
                 });
 #pragma warning restore 612, 618
