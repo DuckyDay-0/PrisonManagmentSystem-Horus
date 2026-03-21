@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PMS_Horus.Services
 {
-    internal class PrisonerExtensionServices : IPrisonerExtensionServices
+    public class PrisonerExtensionServices : IPrisonerExtensionServices
     {
         public PrisonDBContext context;
         //Can be accessed by admin or medical staff
@@ -22,7 +22,7 @@ namespace PMS_Horus.Services
         public async Task AddMedicalRecordAsync(MedicalRecord medicalRecord, string currentUserRole)
         {
             
-            if (currentUserRole != "Medic" || currentUserRole != "Admin")
+            if (currentUserRole != "Medic" && currentUserRole != "Admin")
             {
                 throw new UnauthorizedAccessException("You are not authorized to perform this actions!");
             }

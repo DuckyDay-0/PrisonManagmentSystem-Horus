@@ -3,6 +3,7 @@ using PMS_Horus.Data;
 using PMS_Horus.Interfaces;
 using PMS_Horus.Models;
 using PMS_Horus.Services;
+using PMS_Horus.UI.GetUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,6 +124,7 @@ namespace PMS_Horus.UI
 
         public async Task UpdatePrisonerAsync()
         {
+            Console.Clear();
             Console.WriteLine("Update Prisoner");
             Console.WriteLine("What do you want to update?");
             Console.WriteLine("1.Full Name.");
@@ -158,45 +160,64 @@ namespace PMS_Horus.UI
                     Console.WriteLine($"ID Number:  | Full Name: {prisoner.FirstName} {prisoner.LastName}| Age: {prisoner.Age} | Crime: {prisoner.Crime}");
                     Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
                     Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
+                    Console.WriteLine("======================================================================================================================");
+                    Console.WriteLine();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
+            Console.WriteLine("Press any button to continue!");
+            Console.ReadKey();
             Console.WriteLine();
         }
-
-        public async Task SearchForPrisoner()
+        public async Task GetPrisonerByPIDN()
         {
             Console.Clear();
-            Console.WriteLine("Please enter one of the following -> id/name/crime/age/entry date/cell/cell block");
-            var keywrod = Console.ReadLine();
-            if (keywrod.IsNullOrEmpty())
-            {
-                throw new Exception("Invalid Data");
-            }
-            var prisonersResult = await services.SearchPrisonerAsync(keywrod);
+            Console.WriteLine("Please enter the Personal ID Number for the prisoner you are looking for.");
+
             try
             {
-                foreach (var prisoner in prisonersResult)
-                {
-                    Console.WriteLine($"ID: {prisoner.PersonalIDNumber} | Full Name: {prisoner.FirstName} {prisoner.LastName} | Age: {prisoner.Age} | Crime: {prisoner.Crime}");
-                    Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
-                    Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
-                }
+                Console.Write("PIDN: ");
+                int pidn = validationServices.ReadInt();
+
+                var prisoner = await services.GetPrisonerByIDAsync(pidn);
+                DisplayPrisoner(prisoner);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            Console.WriteLine();
         }
+        public async Task GetPrisonerByNameAsync()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter the First and Last Name of the prisoner.");
+            try
+            {
+                Console.Write("First Name: ");
+                string firstName = validationServices.ReadString();
 
-
-
-
-
+                Console.Write("Last Name: ");
+                string lastName = validationServices.ReadString();
+                var prisoner = await services.GetPrisonerByNameAsync(firstName, lastName);              
+                DisplayPrisoner(prisoner);
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                Console.WriteLine("Press any button to continue!");
+                Console.ReadKey();
+            }
+        }
+        public void DisplayPrisoner(Prisoner prisoner)
+        {
+            Console.Clear();
+            Console.WriteLine($"ID Number:  | Full Name: {prisoner.FirstName} {prisoner.LastName}| Age: {prisoner.Age} | Crime: {prisoner.Crime}");
+            Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
+            Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
+            Console.ReadKey();
+        }
     }
 }

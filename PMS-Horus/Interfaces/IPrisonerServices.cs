@@ -11,11 +11,9 @@ namespace PMS_Horus.Interfaces
     {
         Task AddPrisonerAsync(Prisoner prisoner, string userCurrentRole);
         Task<Prisoner> GetPrisonerByIDAsync(int id);
-        Task<Prisoner> GetPrisonerByNameAsync(string name);
+        Task<Prisoner> GetPrisonerByNameAsync(string firstName, string lastName);
         Task<List<Prisoner>> GetAllPrisonersAsync();
         Task UpdatePrisonerAsync(int id, int choice, string currentUserRole, string newValue);
         Task DeletePrisonerAsync(int id, string currentUserRole);
-        Task<List<Prisoner>> SearchPrisonerAsync(string keyword);
-        Task<List<Prisoner>> GetExpiringSentencesAsync();
     }
 }

@@ -35,9 +35,9 @@ namespace ReqnrollTestProject.StepDefinitions
         {
             var prisoners = new List<Prisoner>()
             {
-                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212},
-                new Prisoner { FirstName = "Michel", LastName = "Thist", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212},
-                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 12121212}
+                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 121241212},
+                new Prisoner { FirstName = "Michel", LastName = "Thist", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 123421455},
+                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 343123}
             };
 
             context.Prisoners.AddRange(prisoners);
@@ -75,7 +75,6 @@ namespace ReqnrollTestProject.StepDefinitions
         [When("User tries to get prisoner with ID {int}")]
         public async Task WhenUserTriesToGetPrisonerWithID(int id)
         {
-            id = 3;
             try
             {
                result = await service.GetPrisonerByIDAsync(id);
@@ -90,19 +89,17 @@ namespace ReqnrollTestProject.StepDefinitions
         [Then("The system will return prisoner with ID {int}")]
         public void ThenTheSystemWillReturnPrisonerWithID(int id)
         {
-            id = 3;
             Assert.NotNull(result);
             Assert.Equal(id, result.PrisonerId);
             Assert.Equal("Doni", result.FirstName);
         }
-
-        [When("User tries to get prisoner with Name {string}")]
-        public async Task WhenUserTriesToGetPrisonerWithName(string name)
-        {
-            name = "Michel";
+        
+        [When("User tries to get prisoner with FirstName {string} and LastName {string}")]
+        public async Task WhenUserTriesToGetPrisonerWithFirstNameAndLastName(string firstName, string lastName)
+        {           
             try
             {
-                result = await service.GetPrisonerByNameAsync(name);
+                result = await service.GetPrisonerByNameAsync(firstName, lastName);
             }
             catch(Exception e)
             { 
@@ -114,12 +111,23 @@ namespace ReqnrollTestProject.StepDefinitions
         [Then("The system will return prisoner with Name {string} and ID {int}")]
         public void ThenTheSystemWillReturnPrisonerWithNameAndID(string name, int id)
         {
-            name = "Michel";
-            id = 2;
-
             Assert.NotNull(result);
             Assert.Equal(id, result.PrisonerId);
             Assert.Equal($"{name}", result.FirstName);  
         }
+
+        [When("Prisoner with this Name does not exists")]
+        public void WhenPrisonerWithThisNameDoesNotExists()
+        {
+            Assert.Null(result);
+        }
+
+        [Then("The system will throw an error message")]
+        public void ThenTheSystemWillThrowAnErrorMessage()
+        {
+            Assert.NotNull(lastException);
+            Assert.Equal("No Prisoner with those details!", exceptionMsg);
+        }
+
     }
 }

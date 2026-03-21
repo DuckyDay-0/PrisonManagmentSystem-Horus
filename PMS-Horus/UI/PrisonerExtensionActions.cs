@@ -13,7 +13,7 @@ namespace PMS_Horus.UI
 {
     internal class PrisonerExtensionActions
     {
-        private ValidationServices validationServices;
+        private ValidationServices validationServices = new ValidationServices();
         private IPrisonerExtensionServices extensionServices;
         private string currentUserRole = "Medic";
 
@@ -24,6 +24,7 @@ namespace PMS_Horus.UI
 
         public async Task MedicalRecordActions()
         {
+            Console.Clear();
             bool running = true;
             while (running)
             {
@@ -70,13 +71,19 @@ namespace PMS_Horus.UI
             int prisonerId = validationServices.ReadInt();
             MedicalRecord medicalRecord = await extensionServices.GetMedicalRecordAsync(prisonerId);
 
-            Console.WriteLine($"{medicalRecord.Id} | {medicalRecord.Allergies}");
-            Console.WriteLine($"{medicalRecord.BloodType} | {medicalRecord.ChronicConditions}");
+            Console.WriteLine($"Medical Record ID: {medicalRecord.Id}");
+            Console.WriteLine($"Allergies: {medicalRecord.Allergies}");
+            Console.WriteLine($"Blood Type: {medicalRecord.BloodType} | Chronic Conditions: {medicalRecord.ChronicConditions}");
+            
         }
 
         public async Task AddPrisonerMenuAsync()
         {
             Console.Clear();
+            if (currentUserRole != "Admin" && currentUserRole != "Medic")
+            {
+                Console.WriteLine("You are not authorized to perform this action!");
+            }
             Console.WriteLine("Add Prisoner ->");
             Console.WriteLine();
             try
@@ -101,7 +108,7 @@ namespace PMS_Horus.UI
                     ChronicConditions = chronicConditions,
                 };
 
-                await extensionServices.AddMedicalRecordAsync(medicalRecord,currentUserRole);
+                await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
                 Console.WriteLine("Prisoner Added!");
 
             }

@@ -69,44 +69,40 @@ namespace PMS_Horus.Services
             }
             return await context.Prisoners.ToListAsync();
         }
-
-        public Task<List<Prisoner>> GetExpiringSentencesAsync()
-        {
-           throw new NotImplementedException(); 
-        }
-
+      
         public async Task<Prisoner> GetPrisonerByIDAsync(int PersonalIDNumber)
         {
-            return await context.Prisoners.FindAsync(PersonalIDNumber);
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == PersonalIDNumber);
+            if (prisoner == null)
+            {
+                throw new NullReferenceException("No Prisoner with those details!");
+            }
+            return prisoner;
         }
 
-        public async Task<Prisoner> GetPrisonerByNameAsync(string name)
+        public async Task<Prisoner> GetPrisonerByNameAsync(string firstName, string lastName)
         {
-            return await context.Prisoners.FirstOrDefaultAsync(n => n.FirstName.Contains(name) || n.LastName.Contains(name));
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(n => n.FirstName.Contains(firstName) || n.LastName.Contains(lastName));
+            if (prisoner == null)
+            {
+                throw new NullReferenceException("No Prisoner with those details!");
+            }
+            
+            return prisoner;
         }
 
-        public async Task<List<Prisoner>> SearchPrisonerAsync(string keyword)
-        {           
-            string toLowerKeyword = keyword.ToLower();
-            List<Prisoner> results = new List<Prisoner>();
-            return results = context.Prisoners
-                .Where(p => p.FirstName.ToLower().Contains(toLowerKeyword) ||
-                            p.Crime.ToLower().Contains(toLowerKeyword))
-                .ToList();
-        }
-
-        public async Task UpdatePrisonerAsync(int id, int choice, string currentUserRole, string newValue)
+        public async Task UpdatePrisonerAsync(int pidn, int choice, string currentUserRole, string newValue)
         {
             if (currentUserRole != "Admin")
             {
                 throw new UnauthorizedAccessException("You don't have the authorization to perform this action!");
             }
-            if (id < 0)
+            if (pidn < 0)
             {
                 throw new InvalidDataException("Invalid ID! Try Again!");
             }
 
-            var prisoner = await context.Prisoners.FindAsync(id);
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
 
             if (newValue.IsNullOrEmpty())
             {

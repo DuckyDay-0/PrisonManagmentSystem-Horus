@@ -1,4 +1,5 @@
 ﻿using PMS_Horus.Interfaces;
+using PMS_Horus.UI.GetUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,21 @@ namespace PMS_Horus.UI
         private IPrisonerExtensionServices extensionServices;
         private PrisonerActions actions;
         private PrisonerExtensionActions extensionsActions;
-        public StartingPage(IPrisonerServices service, PrisonerActions actions,IPrisonerExtensionServices extensionServices) 
+        private GetPrisonerByUI getPrisonerByUI;
+        public StartingPage(IPrisonerServices service, PrisonerActions actions, IPrisonerExtensionServices extensionServices, PrisonerExtensionActions extensionActions, GetPrisonerByUI getPrisonerByUI) 
         {
             this.service = service;
             this.actions = actions;
             this.extensionServices = extensionServices;
+            this.extensionsActions = extensionActions;
+            this.getPrisonerByUI = getPrisonerByUI;
         }
         public async Task RunAsync()
         {
             bool running = true;
             while (running)
             {
+                Console.Clear();
 
                 Console.WriteLine("====Prison System 'Horus'====");
                 Console.WriteLine();
@@ -48,7 +53,7 @@ namespace PMS_Horus.UI
                         break;
 
                     case 2:
-                        await actions.SearchForPrisoner();
+                        await getPrisonerByUI.GetPrisonerByUIMenu();
                         break;
 
                     case 3:
@@ -64,7 +69,7 @@ namespace PMS_Horus.UI
                         break;
 
                     case 6:
-                        extensionsActions.MedicalRecordActions();
+                        await extensionsActions.MedicalRecordActions();
                         break;
 
                     case 7:

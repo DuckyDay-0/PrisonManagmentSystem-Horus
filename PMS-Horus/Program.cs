@@ -4,6 +4,7 @@ using PMS_Horus.Data;
 using PMS_Horus.Interfaces;
 using PMS_Horus.Services;
 using PMS_Horus.UI;
+using PMS_Horus.UI.GetUI;
 using System.Threading.Tasks;
 
 namespace PMSHorus
@@ -22,6 +23,8 @@ namespace PMSHorus
                     services.AddScoped<IPrisonerExtensionServices, PrisonerExtensionServices>();
                     services.AddTransient<StartingPage>();
                     services.AddTransient<PrisonerActions>();
+                    services.AddTransient<PrisonerExtensionActions>();
+                    services.AddTransient<GetPrisonerByUI>();
                     
                 })
                 .Build();

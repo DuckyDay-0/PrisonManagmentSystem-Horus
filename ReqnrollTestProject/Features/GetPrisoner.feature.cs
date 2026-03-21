@@ -114,7 +114,7 @@ await testRunner.GivenAsync("The system is ready to get prisoners", ((string)(nu
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/GetPrisoner.feature.ndjson", 6);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/GetPrisoner.feature.ndjson", 7);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -155,7 +155,7 @@ await testRunner.GivenAsync("The system is ready to get prisoners", ((string)(nu
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User is trying to get all prisoners", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 9
+#line 8
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -168,13 +168,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 4
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 10
+#line 9
  await testRunner.GivenAsync("There are three prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 11
+#line 10
  await testRunner.WhenAsync("User tries to get all prisoners", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 11
  await testRunner.ThenAsync("The system will return all prisoners", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -192,7 +192,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("There are no prisoners in the database", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
+#line 13
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -205,10 +205,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 4
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 15
+#line 14
  await testRunner.WhenAsync("User tries to get all prisoners", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 15
  await testRunner.ThenAsync("The system will return an exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -226,7 +226,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User is trying to get prisoner by ID", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
+#line 17
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -239,31 +239,31 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 4
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 19
+#line 18
  await testRunner.GivenAsync("There are three prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 20
- await testRunner.WhenAsync("User tries to get prisoner with ID 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 19
+ await testRunner.WhenAsync("User tries to get prisoner with ID 343123", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 20
  await testRunner.ThenAsync("The system will return prisoner with ID 3", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="User is trying to get prisoner by Name")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="User is trying to get prisoner by FirstName and LastName")]
         [global::Xunit.TraitAttribute("FeatureTitle", "GetPrisoner")]
-        [global::Xunit.TraitAttribute("Description", "User is trying to get prisoner by Name")]
-        public async global::System.Threading.Tasks.Task UserIsTryingToGetPrisonerByName()
+        [global::Xunit.TraitAttribute("Description", "User is trying to get prisoner by FirstName and LastName")]
+        public async global::System.Threading.Tasks.Task UserIsTryingToGetPrisonerByFirstNameAndLastName()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User is trying to get prisoner by Name", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User is trying to get prisoner by FirstName and LastName", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 23
+#line 22
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -276,14 +276,54 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 4
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 24
+#line 23
  await testRunner.GivenAsync("There are three prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 25
- await testRunner.WhenAsync("User tries to get prisoner with Name \"Michel\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 24
+ await testRunner.WhenAsync("User tries to get prisoner with FirstName \"Michel\" and LastName \"Thist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 25
  await testRunner.ThenAsync("The system will return prisoner with Name \"Michel\" and ID 2", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to get prisoner with the wrong or non existing FirstName and LastName")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "GetPrisoner")]
+        [global::Xunit.TraitAttribute("Description", "User tries to get prisoner with the wrong or non existing FirstName and LastName")]
+        public async global::System.Threading.Tasks.Task UserTriesToGetPrisonerWithTheWrongOrNonExistingFirstNameAndLastName()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to get prisoner with the wrong or non existing FirstName and LastName", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 27
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 4
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 28
+ await testRunner.GivenAsync("There are three prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 29
+ await testRunner.WhenAsync("User tries to get prisoner with FirstName \"Tony\" and LastName \"Habib\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 30
+ await testRunner.ButAsync("Prisoner with this Name does not exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "But ");
+#line hidden
+#line 31
+ await testRunner.ThenAsync("The system will throw an error message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
