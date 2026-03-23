@@ -27,60 +27,60 @@ namespace PMS_Horus.UI
             Console.Clear();
             Console.WriteLine("Add Prisoner ->");
             Console.WriteLine();
-            try
+            
+            Console.Write("First Name: ");
+            
+            string firstName = validationServices.ReadString();
+
+            Console.Write("Last Name: ");
+            string lastName = validationServices.ReadString();
+
+            Console.Write("Personal ID Number Number: ");
+            int personalIDNumber = validationServices.ReadInt();
+
+            Console.Write("Age: ");
+            int age = validationServices.ReadInt();
+
+            Console.Write("Entry Date: ");
+            DateOnly entryDate = validationServices.ReadDateOnly();
+
+            Console.Write("Sentence Lenght: ");
+            int sentenceLenght = validationServices.ReadInt();
+
+            Console.Write("Crime: ");
+            string crime = validationServices.ReadString();
+
+            Console.Write("Prison Block: ");
+            string prisonBlock = validationServices.ReadString();
+
+            Console.Write("Prison Cell: ");
+            int prisonCell = validationServices.ReadInt();
+
+            var prisoner = new Prisoner
             {
-                Console.Write("First Name: ");
-                string firstName = validationServices.ReadString();
+                FirstName = firstName,
+                LastName = lastName,
+                PersonalIDNumber = personalIDNumber,
+                Age = age,
+                EntryDate = entryDate,
+                SentenceLenght = sentenceLenght,
+                ReleaseDate = entryDate.AddYears(sentenceLenght),
+                Crime = crime,
+                PrisonBlock = prisonBlock,
+                PrisonCell = prisonCell
+            };
 
-                Console.Write("Last Name: ");
-                string lastName = validationServices.ReadString();
-
-                Console.Write("Personal ID Number Number: ");
-                int personalIDNumber = validationServices.ReadInt();
-
-                Console.Write("Age: ");
-                int age = validationServices.ReadInt();
-
-                Console.Write("Entry Date: ");
-                DateOnly entryDate = validationServices.ReadDateOnly();
-
-                Console.Write("Sentence Lenght: ");
-                int sentenceLenght = validationServices.ReadInt();
-
-                Console.Write("Crime: ");
-                string crime = validationServices.ReadString();
-
-                Console.Write("Prison Block: ");
-                string prisonBlock = validationServices.ReadString();
-
-                Console.Write("Prison Cell: ");
-                int prisonCell = validationServices.ReadInt();
-
-                var prisoner = new Prisoner
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    PersonalIDNumber = personalIDNumber,
-                    Age = age,
-                    EntryDate = entryDate,
-                    SentenceLenght = sentenceLenght,
-                    ReleaseDate = entryDate.AddYears(sentenceLenght),
-                    Crime = crime,
-                    PrisonBlock = prisonBlock,
-                    PrisonCell = prisonCell
-                };
-
-                await services.AddPrisonerAsync(prisoner, currentUserRole);
-                Console.WriteLine("Prisoner Added!");
-                    
+            var result = await services.AddPrisonerAsync(prisoner, currentUserRole);
+            if (!result.Success)
+            {
+                Console.WriteLine($"{result.Message}");
             }
-
-            catch (InvalidDataException e)
+            else
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Prisoner Added!");
             }
         }
-
+ 
         public async Task RemovePrisonerAsync()
         {
             Console.Clear();
@@ -96,8 +96,9 @@ namespace PMS_Horus.UI
                 return;
             }
 
-            var prisoner = await services.GetPrisonerByIDAsync(id);
-            if (prisoner == null)
+            var result = await services.GetPrisonerByIDAsync(id);
+            
+            if (result == null)
             {
                 Console.WriteLine($"No Prisoner Found with ID: {id}");
                 return;
@@ -106,12 +107,12 @@ namespace PMS_Horus.UI
             //Confirmation
             Console.WriteLine("Confirm if this is the prisoner you want to delete.");
             Console.WriteLine();
-            Console.WriteLine($"{id} | Full Name: {prisoner.FirstName} {prisoner.LastName}");
-            Console.WriteLine($"Crime: {prisoner.Crime}");
-            Console.WriteLine($"Sentence Lenght: {prisoner.SentenceLenght}");
+            Console.WriteLine($"{id} | Full Name: {result.Data.FirstName} {result.Data.LastName}");
+            Console.WriteLine($"Crime: {result.Data.Crime}");
+            Console.WriteLine($"Sentence Lenght: {result.Data.SentenceLenght}");
             Console.WriteLine("If you want to continue please type ~Yes~");
-            string confirmation = validationServices.ReadString();
-            if (confirmation != "Yes")
+            string confirmation = validationServices.ReadString().ToLower().TrimEnd().TrimStart();
+            if (confirmation != "yes")
             {
                 Console.WriteLine("Operation Cancelled");
                 Console.ReadKey();
@@ -147,15 +148,16 @@ namespace PMS_Horus.UI
         {
             Console.Clear();
             var prisoners = await services.GetAllPrisonersAsync();
-            if (prisoners.IsNullOrEmpty())
+            if (!prisoners.Success)
             {
-                Console.WriteLine("No Prisoners registered at the prison.");
+                Console.Clear();
+                Console.WriteLine($"{prisoners.Message}");
                 Console.ReadLine();
                 return;
             }
-            try
-            {
-                foreach (var prisoner in prisoners)
+            else
+            { 
+                foreach (var prisoner in prisoners.Data)
                 {
                     Console.WriteLine($"ID Number:  | Full Name: {prisoner.FirstName} {prisoner.LastName}| Age: {prisoner.Age} | Crime: {prisoner.Crime}");
                     Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
@@ -164,51 +166,52 @@ namespace PMS_Horus.UI
                     Console.WriteLine();
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Console.WriteLine();
             Console.WriteLine("Press any button to continue!");
             Console.ReadKey();
-            Console.WriteLine();
         }
         public async Task GetPrisonerByPIDN()
         {
             Console.Clear();
             Console.WriteLine("Please enter the Personal ID Number for the prisoner you are looking for.");
 
-            try
-            {
-                Console.Write("PIDN: ");
-                int pidn = validationServices.ReadInt();
+            Console.Write("PIDN: ");
+            int pidn = validationServices.ReadInt();
+            var prisoner = await services.GetPrisonerByIDAsync(pidn);
 
-                var prisoner = await services.GetPrisonerByIDAsync(pidn);
-                DisplayPrisoner(prisoner);
-            }
-            catch (Exception e)
+            if (!prisoner.Success)
             {
-                Console.WriteLine(e.Message);
+                Console.Clear();
+                Console.WriteLine(prisoner.Message);
+                Console.ReadKey();
             }
+            else
+            {
+                DisplayPrisoner(prisoner.Data);
+            }
+            
         }
         public async Task GetPrisonerByNameAsync()
         {
             Console.Clear();
             Console.WriteLine("Please enter the First and Last Name of the prisoner.");
-            try
-            {
-                Console.Write("First Name: ");
-                string firstName = validationServices.ReadString();
+            
+            Console.Write("First Name: ");
+            string firstName = validationServices.ReadString();
 
-                Console.Write("Last Name: ");
-                string lastName = validationServices.ReadString();
-                var prisoner = await services.GetPrisonerByNameAsync(firstName, lastName);              
-                DisplayPrisoner(prisoner);
-            }
-            catch (NullReferenceException ex)
+            Console.Write("Last Name: ");
+            string lastName = validationServices.ReadString();
+            var prisoner = await services.GetPrisonerByNameAsync(firstName, lastName);
+            if (!prisoner.Success)
             {
-                Console.WriteLine($"{ex.Message}");
+                Console.Clear();
+                Console.WriteLine($"{prisoner.Message}");
                 Console.WriteLine("Press any button to continue!");
                 Console.ReadKey();
+            }
+            else
+            {
+                DisplayPrisoner(prisoner.Data);
             }
         }
         public void DisplayPrisoner(Prisoner prisoner)

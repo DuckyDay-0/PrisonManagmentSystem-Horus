@@ -4,6 +4,7 @@ using PMS_Horus.Data;
 using PMS_Horus.Models;
 using PMS_Horus.Services;
 using Reqnroll;
+using Reqnroll.Formatters.PayloadProcessing.Cucumber;
 
 namespace ReqnrollTestProject.StepDefinitions
 {
@@ -12,11 +13,8 @@ namespace ReqnrollTestProject.StepDefinitions
     {
         private PrisonDBContext context;
         private PrisonerService service;
-        private List<Prisoner> resultList;
-        private Prisoner result;
-        private Exception lastException;
-        private string exceptionMsg;
-
+        private ResultService<Prisoner> resultService;
+        private ResultService<List<Prisoner>> listResultService;
 
         [Given("The system is ready to get prisoners")]
         public void GivenTheSystemIsReadyToGetPrisoners()
@@ -43,90 +41,71 @@ namespace ReqnrollTestProject.StepDefinitions
             context.Prisoners.AddRange(prisoners);
             context.SaveChanges();
         }
-
+        
         [When("User tries to get all prisoners")]
         public async Task WhenUserTriesToGetAllPrisoners()
         {
-            try
-            {
-                resultList = await service.GetAllPrisonersAsync();
-            }
-            catch (Exception ex)
-            {
-                lastException = ex;
-                exceptionMsg = lastException.Message;
-            }
+           listResultService = await service.GetAllPrisonersAsync();
         }
 
         [Then("The system will return all prisoners")]
         public void ThenTheSystemWillReturnAllPrisoners()
         {
-            Assert.NotEmpty(resultList);   
+            Assert.NotEmpty(listResultService.Data);   
         }
 
-        //No prisoners in the db
+
+        [Given("There are no prisoners in the database")]
+        public void GivenThereAreNoPrisonersInTheDatabase()
+        {
+        }
+
         [Then("The system will return an exception")]
         public void ThenTheSystemWillReturnAnException()
         {
-            Assert.NotNull(lastException);
-            Assert.Contains("No prisoners are registered!", exceptionMsg);
+            Assert.False(listResultService.Success);
+            Assert.Equal("No prisoners are registered!", listResultService.Message);
+            Assert.Empty(listResultService.Data);
         }
 
         [When("User tries to get prisoner with ID {int}")]
         public async Task WhenUserTriesToGetPrisonerWithID(int id)
         {
-            try
-            {
-               result = await service.GetPrisonerByIDAsync(id);
-            }
-            catch(Exception e)
-            {
-                lastException = e;
-                exceptionMsg = lastException.Message;
-            }
+            resultService = await service.GetPrisonerByIDAsync(id);
         }
 
         [Then("The system will return prisoner with ID {int}")]
         public void ThenTheSystemWillReturnPrisonerWithID(int id)
         {
-            Assert.NotNull(result);
-            Assert.Equal(id, result.PrisonerId);
-            Assert.Equal("Doni", result.FirstName);
+            Assert.NotNull(resultService);
+            Assert.Equal(id, resultService.Data.PrisonerId);
+            Assert.Equal("Doni", resultService.Data.FirstName);
         }
         
         [When("User tries to get prisoner with FirstName {string} and LastName {string}")]
         public async Task WhenUserTriesToGetPrisonerWithFirstNameAndLastName(string firstName, string lastName)
-        {           
-            try
-            {
-                result = await service.GetPrisonerByNameAsync(firstName, lastName);
-            }
-            catch(Exception e)
-            { 
-                lastException = e;
-                exceptionMsg = lastException.Message;
-            }
+        {      
+            resultService = await service.GetPrisonerByNameAsync(firstName, lastName);           
         }
 
         [Then("The system will return prisoner with Name {string} and ID {int}")]
         public void ThenTheSystemWillReturnPrisonerWithNameAndID(string name, int id)
         {
-            Assert.NotNull(result);
-            Assert.Equal(id, result.PrisonerId);
-            Assert.Equal($"{name}", result.FirstName);  
+            Assert.NotNull(resultService.Data);
+            Assert.Equal(id, resultService.Data.PrisonerId);
+            Assert.Equal($"{name}", resultService.Data.FirstName);  
         }
 
         [When("Prisoner with this Name does not exists")]
         public void WhenPrisonerWithThisNameDoesNotExists()
         {
-            Assert.Null(result);
+            Assert.Null(resultService.Data);
         }
 
         [Then("The system will throw an error message")]
         public void ThenTheSystemWillThrowAnErrorMessage()
         {
-            Assert.NotNull(lastException);
-            Assert.Equal("No Prisoner with those details!", exceptionMsg);
+            Assert.Equal("No Prisoner with those details!", resultService.Message);
         }
 
     }

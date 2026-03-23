@@ -15,8 +15,7 @@ namespace ReqnrollTestProject.StepDefinitions
         private PrisonDBContext context;
         private string currentUserRole = "Admin";
         private PrisonerService services;
-        private Exception lastException;
-        private string exceptionMsg;
+        private ResultService<Prisoner> resultService;
 
         [Given("The system is ready for prisoner to be added")]
         public void GivenTheSystemIsReadyForPrisonerToBeAdded()
@@ -32,7 +31,7 @@ namespace ReqnrollTestProject.StepDefinitions
         }
 
         [When("User adds a prisoner with FirsName {string}, LastName {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}, Prison Block {string}, Prison Cell {int}")]
-        public void WhenUserAddsAPrisonerWithFirsNameLastNameAgeCrimeEntryDateSentenceLenghtReleaseDatePrisonBlockPrisonCell(string firstName, string lastName, int age, string crime, string entryDate, int sentenceLenght, string releaseDate, string prisonBlock, int prisonCell)
+        public async Task WhenUserAddsAPrisonerWithFirsNameLastNameAgeCrimeEntryDateSentenceLenghtReleaseDatePrisonBlockPrisonCell(string firstName, string lastName, int age, string crime, string entryDate, int sentenceLenght, string releaseDate, string prisonBlock, int prisonCell)
         {
             DateOnly entryDateParsed = DateOnly.Parse(entryDate);
             services = new PrisonerService(context);
@@ -48,17 +47,15 @@ namespace ReqnrollTestProject.StepDefinitions
                 PrisonBlock = prisonBlock,
                 PrisonCell = prisonCell
             };
-            services.AddPrisonerAsync(prisoner, currentUserRole);
+
+           resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
         }
 
         [Then("Prisoner will be added, an ID will be generated")]
         public void ThenPrisonerWillBeAddedAnIDWillBeGenerated()
         {
-            var prisoners = context.Prisoners.ToList();
-
-
-            Assert.NotEmpty(prisoners);
-            Assert.True(prisoners[0].PrisonerId > 0);
+            Assert.True(resultService.Success);
+            Assert.NotEqual(0, resultService.Data.PrisonerId);
         }
 
 
@@ -72,9 +69,7 @@ namespace ReqnrollTestProject.StepDefinitions
         [Then("No prisoner will be added")]
         public void NoPrisonerWillBeAdded()
         {
-            var prisoners = context.Prisoners.ToList();
-
-            Assert.Empty(prisoners);
+            Assert.False(resultService.Success);
         }
 
 
@@ -87,25 +82,15 @@ namespace ReqnrollTestProject.StepDefinitions
         [When("User tries to add a prisoner with no Name")]
         public async Task WhenITryToAddAPrisonerWithNoName()
         {
-            var prisoner = new Prisoner() { FirstName = "" };
-            try
-            {
-                await services.AddPrisonerAsync(prisoner, currentUserRole);
-            }
-            catch (Exception e)
-            { 
-                lastException = e;
-                exceptionMsg = lastException.Message;
-            }
+            var prisoner = new Prisoner() { FirstName = "" };       
+            resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
         }
 
         [Then("User receives an exception and no prisoner is added")]
         public void ThenUserReceiveAnExceptionAndNoPrisonerIsAdded()
         {
-            Assert.NotNull(lastException);
-            Assert.Contains("There was a problem with the data being added. Try Again!", exceptionMsg);
-            var prisoners = context.Prisoners.ToList();
-            Assert.Empty(prisoners);          
+            Assert.Contains("There was a problem with the data being added. Try Again!", resultService.Message);
+            Assert.False(resultService.Success);          
         }      
     }
 }

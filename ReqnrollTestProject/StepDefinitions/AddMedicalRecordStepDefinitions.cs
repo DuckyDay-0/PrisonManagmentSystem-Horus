@@ -13,10 +13,9 @@ namespace ReqnrollTestProject.StepDefinitions
     public class AddMedicalRecordStepDefinitions
     {
         private PrisonDBContext context;
-        private Exception lastException;
-        private string exceptionMessage;
         private PrisonerExtensionServices extensionServices;
         private string currentUserRole = "Medic";
+        private ResultService<MedicalRecord> resultService;
 
         [Given("The system is ready for medical record to be added")]
         public void GivenTheSystemIsReadyForMedicalRecordToBeAdded()

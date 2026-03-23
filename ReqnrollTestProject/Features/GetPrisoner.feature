@@ -11,6 +11,7 @@ Scenario: User is trying to get all prisoners
 	Then The system will return all prisoners
 
 Scenario: There are no prisoners in the database
+	Given There are no prisoners in the database
 	When User tries to get all prisoners
 	Then The system will return an exception
 	

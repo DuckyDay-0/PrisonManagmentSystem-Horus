@@ -21,11 +21,11 @@ namespace PMS_Horus.Services
             this.context = context;
         }
 
-        public async Task AddPrisonerAsync(Prisoner prisoner, string currentUserRole)
+        public async Task<ResultService<Prisoner>> AddPrisonerAsync(Prisoner prisoner, string currentUserRole)
         {
             if (currentUserRole != "Admin")
             {
-                throw new UnauthorizedAccessException("You are not authorized to perform this action!");
+                return new ResultService<Prisoner>(false, "You are not authorized to perform this action!");
             }
 
             prisoner.ReleaseDate = prisoner.EntryDate.AddYears(prisoner.SentenceLenght);
@@ -34,79 +34,83 @@ namespace PMS_Horus.Services
             {
                 context.Prisoners.Add(prisoner);
                 await context.SaveChangesAsync();
+                return new ResultService<Prisoner>(true, "Prisoner Added!", prisoner);
             }
-            catch (Exception ex)
+            catch
             {
                 
-                throw new InvalidDataException("There was a problem with the data being added. Try Again!");
+               return new ResultService<Prisoner>(false,"There was a problem with the data being added. Try Again!");
             }
+
         }
 
-        public async Task DeletePrisonerAsync(int id, string currentUserRole)
+        public async Task<ResultService<Prisoner>> DeletePrisonerAsync(int id, string currentUserRole)
         {
             if (currentUserRole != "Admin")
             {
-                throw new UnauthorizedAccessException("You don't have the authorization to perform this action!");
+                return new ResultService<Prisoner>(false, "You don't have the authorization to perform this action!");
             }
 
             var prisoner = await context.Prisoners.FindAsync(id);
 
             if (prisoner == null)
             {
-                Console.WriteLine($"Prisoner with ID {id} Not Found!");
-                return;
+                return new ResultService<Prisoner>(false,$"Prisoner with ID {id} Not Found!");
             }
             
             context.Prisoners.Remove(prisoner);
             await context.SaveChangesAsync();
+            return new ResultService<Prisoner>(true, "Prisoner Deleted");
         }
 
-        public async Task<List<Prisoner>> GetAllPrisonersAsync()
+        public async Task<ResultService<List<Prisoner>>> GetAllPrisonersAsync()
         {
-            if (context.Prisoners.IsNullOrEmpty())
+            var prisoners = await context.Prisoners.ToListAsync();
+            if (prisoners.IsNullOrEmpty())
             {
-                throw new Exception("No prisoners are registered!");
+                return new ResultService<List<Prisoner>>(false, "No prisoners are registered!", new List<Prisoner>());
             }
-            return await context.Prisoners.ToListAsync();
+
+            return new ResultService<List<Prisoner>>(true, "Prisoner Added!", prisoners);
         }
       
-        public async Task<Prisoner> GetPrisonerByIDAsync(int PersonalIDNumber)
+        public async Task<ResultService<Prisoner>> GetPrisonerByIDAsync(int PersonalIDNumber)
         {
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == PersonalIDNumber);
             if (prisoner == null)
             {
-                throw new NullReferenceException("No Prisoner with those details!");
+                return new ResultService<Prisoner>(false, "No Prisoner with those details!");
             }
-            return prisoner;
+            return new ResultService<Prisoner>(true, "", prisoner);
         }
 
-        public async Task<Prisoner> GetPrisonerByNameAsync(string firstName, string lastName)
+        public async Task<ResultService<Prisoner>> GetPrisonerByNameAsync(string firstName, string lastName)
         {
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(n => n.FirstName.Contains(firstName) || n.LastName.Contains(lastName));
             if (prisoner == null)
             {
-                throw new NullReferenceException("No Prisoner with those details!");
+                return new ResultService<Prisoner>(false, "No Prisoner with those details!");
             }
-            
-            return prisoner;
+
+            return new ResultService<Prisoner>(true, "", prisoner);
         }
 
-        public async Task UpdatePrisonerAsync(int pidn, int choice, string currentUserRole, string newValue)
+        public async Task<ResultService<Prisoner>> UpdatePrisonerAsync(int pidn, int choice, string currentUserRole, string newValue)
         {
             if (currentUserRole != "Admin")
             {
-                throw new UnauthorizedAccessException("You don't have the authorization to perform this action!");
+                return new ResultService<Prisoner>(false, "You don't have the authorization to perform this action!");
             }
             if (pidn < 0)
             {
-                throw new InvalidDataException("Invalid ID! Try Again!");
+                return new ResultService<Prisoner>(false, "Invalid ID! Try Again!");
             }
 
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
 
             if (newValue.IsNullOrEmpty())
             {
-                throw new InvalidDataException("Invalid Data!");
+                return new ResultService<Prisoner>(false, "Invalid Data!");
             }
             try
             {
@@ -140,14 +144,14 @@ namespace PMS_Horus.Services
                     default:
                         throw new InvalidDataException("Invalid Option");
                 }
-
+                await context.SaveChangesAsync();
+                return new ResultService<Prisoner>(true, "Prisoner Updated");
             }
-            catch (Exception e)
+            catch
             {
-                throw new Exception(e.Message);
+                return new ResultService<Prisoner>(false, "Error updating");
             }
 
-            await context.SaveChangesAsync();
         }
     }
 }
