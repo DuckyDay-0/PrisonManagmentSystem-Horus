@@ -54,7 +54,7 @@ namespace ReqnrollTestProject.StepDefinitions
                 ChronicConditions = "none"
             };
 
-            await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
+            resultService = await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
         }
 
         [Then("Medical Record will be added for the prisoner")]
@@ -62,6 +62,17 @@ namespace ReqnrollTestProject.StepDefinitions
         {
             var result = context.MedicalRecords.ToListAsync();
             Assert.NotNull(result);
+        }
+
+        [Given("There are no prisoners")]
+        public void GivenThereAreNoPrisoners()
+        {
+        }
+
+        [Then("The system will show an error message and medical record won't be added")]
+        public void ThenTheSystemWillShowAnErrorMessageAndMedicalRecordWontBeAdded()
+        {
+            Assert.False();
         }
 
     }

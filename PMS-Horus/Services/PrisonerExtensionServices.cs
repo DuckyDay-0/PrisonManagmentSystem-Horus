@@ -19,12 +19,12 @@ namespace PMS_Horus.Services
         {
             this.context = context;
         }
-        public async Task AddMedicalRecordAsync(MedicalRecord medicalRecord, string currentUserRole)
+        public async Task<ResultService<MedicalRecord>> AddMedicalRecordAsync(MedicalRecord medicalRecord, string currentUserRole)
         {
             
             if (currentUserRole != "Medic" && currentUserRole != "Admin")
             {
-                throw new UnauthorizedAccessException("You are not authorized to perform this actions!");
+                return new ResultService<MedicalRecord>(false, "You are not authorized to perform this actions!");
             }
             //Check here
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == medicalRecord.PrisonerId);
@@ -33,33 +33,40 @@ namespace PMS_Horus.Services
             {
                 await context.MedicalRecords.AddAsync(medicalRecord);
                 await context.SaveChangesAsync();
+                return new ResultService<MedicalRecord>(true, "Medical Record Added!");
             }
             catch
             {
-                throw new InvalidOperationException("//AddMedicalRecordException");
+                return new ResultService<MedicalRecord>(false, "//AddMedicalRecordException");
             }         
         }
 
-        public async Task<MedicalRecord> GetMedicalRecordAsync(int prisonerId)
+        public async Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int prisonerId)
         {
-            return await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerId == prisonerId);
+            var medRecord = await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerId == prisonerId);
+            if(medRecord == null)
+            {
+                return new ResultService<MedicalRecord>(false, "No Med Records Available");
+            }
+            return new ResultService<MedicalRecord>(true, "", medRecord);
         }
 
-        public async Task RemoveMedicalRecordAsync(int prisonerId)
+        public async Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int prisonerId)
         {
             var medicalRecordPrisoner = await context.MedicalRecords.FirstOrDefaultAsync(p => p.PrisonerId == prisonerId);
             try
             {
-                context.MedicalRecords.Remove(medicalRecordPrisoner);
+                var medRecord = context.MedicalRecords.Remove(medicalRecordPrisoner);
                 await context.SaveChangesAsync();
+                return new ResultService<MedicalRecord>(true, "Medical Record Removed");
             }
             catch
             {
-                throw new Exception("//RemoveRecordException");
+                return new ResultService<MedicalRecord>(false, "//RemoveRecordException");
             }
         }
 
-        public Task UpdateMedicalRecordAsync(int prisonerId)
+        public Task<ResultService<MedicalRecord>> UpdateMedicalRecordAsync(int prisonerId)
         {
             throw new NotImplementedException();
         }

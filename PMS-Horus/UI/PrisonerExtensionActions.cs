@@ -3,6 +3,7 @@ using PMS_Horus.Interfaces;
 using PMS_Horus.Models;
 using PMS_Horus.Services;
 using Reqnroll.Assist;
+using Reqnroll.Formatters.PayloadProcessing.Cucumber;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace PMS_Horus.UI
             bool running = true;
             while (running)
             {
-
+                Console.Clear();
                 Console.WriteLine("====Prison System 'Horus'====");
                 Console.WriteLine("====Medical Record====");
                 Console.WriteLine();
@@ -69,12 +70,23 @@ namespace PMS_Horus.UI
             Console.Clear();
             Console.Write("Please enter the Prisoner's Personal ID:");
             int prisonerId = validationServices.ReadInt();
-            MedicalRecord medicalRecord = await extensionServices.GetMedicalRecordAsync(prisonerId);
+            var result = await extensionServices.GetMedicalRecordAsync(prisonerId);
 
-            Console.WriteLine($"Medical Record ID: {medicalRecord.Id}");
-            Console.WriteLine($"Allergies: {medicalRecord.Allergies}");
-            Console.WriteLine($"Blood Type: {medicalRecord.BloodType} | Chronic Conditions: {medicalRecord.ChronicConditions}");
-            
+            if (!result.Success)
+            {
+                Console.Clear();
+                Console.WriteLine(result.Message);
+                Console.WriteLine("Press Any button to continue!");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine($"Medical Record ID: {result.Data.Id}");
+                Console.WriteLine($"Allergies: {result.Data.Allergies}");
+                Console.WriteLine($"Blood Type: {result.Data.BloodType} | Chronic Conditions: {result.Data.ChronicConditions}");
+            }
+
+
         }
 
         public async Task AddPrisonerMenuAsync()

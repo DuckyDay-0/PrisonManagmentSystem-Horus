@@ -8,3 +8,8 @@ Scenario: User tries to add a medical record
 	Given There are prisoners in the database
 	When User tries to add Medical Record for prisoner with PIDN 11221
 	Then Medical Record will be added for the prisoner
+
+Scenario: No prisoners are registered in the system
+	Given There are no prisoners
+	When User tries to add Medical Record for prisoner with PIDN 11221
+	Then The system will show an error message and medical record won't be added

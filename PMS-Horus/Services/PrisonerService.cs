@@ -37,8 +37,7 @@ namespace PMS_Horus.Services
                 return new ResultService<Prisoner>(true, "Prisoner Added!", prisoner);
             }
             catch
-            {
-                
+            {       
                return new ResultService<Prisoner>(false,"There was a problem with the data being added. Try Again!");
             }
 
