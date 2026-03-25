@@ -52,7 +52,11 @@ namespace PMS_Horus.UI
                         break;
 
                     case 2:
-                        await AddPrisonerMenuAsync();
+                        await AddMedicalRecordAsync();
+                        break;
+
+                    case 3:
+                        await DeleteMedicalRecord();
                         break;
                     case 0:
                         running = false;
@@ -65,6 +69,28 @@ namespace PMS_Horus.UI
 
 
         }
+        public async Task DeleteMedicalRecord()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter the Prisoner's PIDN: ");
+            int pidn = validationServices.ReadInt();
+            var result = await extensionServices.RemoveMedicalRecordAsync(pidn);
+
+            if (!result.Success)
+            {
+                Console.Clear();
+                Console.WriteLine(result.Message);
+                Console.WriteLine("Press Any button to continue!");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine($"{result.Message}");
+                Console.ReadKey();
+            }
+        }
+
         public async Task ShowMedicalRecordAsync()
         {
             Console.Clear();
@@ -81,22 +107,24 @@ namespace PMS_Horus.UI
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine($"Medical Record ID: {result.Data.Id}");
                 Console.WriteLine($"Allergies: {result.Data.Allergies}");
                 Console.WriteLine($"Blood Type: {result.Data.BloodType} | Chronic Conditions: {result.Data.ChronicConditions}");
+                Console.ReadKey();
             }
 
 
         }
 
-        public async Task AddPrisonerMenuAsync()
+        public async Task AddMedicalRecordAsync()
         {
             Console.Clear();
             if (currentUserRole != "Admin" && currentUserRole != "Medic")
             {
                 Console.WriteLine("You are not authorized to perform this action!");
             }
-            Console.WriteLine("Add Prisoner ->");
+            Console.WriteLine("Add Medical Record ->");
             Console.WriteLine();
             try
             {

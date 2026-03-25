@@ -7,7 +7,7 @@ using Reqnroll;
 using System;
 using System.Threading.Tasks;
 
-namespace ReqnrollTestProject.StepDefinitions
+namespace ReqnrollTestProject.StepDefinitions.MedicalRecordStepDefinition
 {
     [Binding]
     public class AddMedicalRecordStepDefinitions
@@ -15,7 +15,7 @@ namespace ReqnrollTestProject.StepDefinitions
         private PrisonDBContext context;
         private PrisonerExtensionServices extensionServices;
         private string currentUserRole = "Medic";
-        private ResultService<MedicalRecord> resultService;
+        private ResultService<MedicalRecord>? resultService;
 
         [Given("The system is ready for medical record to be added")]
         public void GivenTheSystemIsReadyForMedicalRecordToBeAdded()
@@ -32,11 +32,12 @@ namespace ReqnrollTestProject.StepDefinitions
         [Given("There are prisoners in the database")]
         public void GivenThereArePrisonersInTheDatabase()
         {
+            var baseDate = new DateOnly(2023, 05, 10);
             var prisoners = new List<Prisoner>()
             {
-                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 121241212},
-                new Prisoner { FirstName = "Michel", LastName = "Thist", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 123421455},
-                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = new DateOnly(12,12,12), SentenceLenght = 2, ReleaseDate = new DateOnly(12,12,12).AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 343123}
+                new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 11221},
+                new Prisoner { FirstName = "Michel", LastName = "Thist", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 123421455},
+                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 343123}
             };
 
             context.Prisoners.AddRange(prisoners);
@@ -53,14 +54,13 @@ namespace ReqnrollTestProject.StepDefinitions
                 Allergies = "none",
                 ChronicConditions = "none"
             };
-
-            resultService = await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
+          resultService = await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
         }
 
         [Then("Medical Record will be added for the prisoner")]
-        public void ThenMedicalRecordWillBeAddedForThePrisoner()
+        public async Task ThenMedicalRecordWillBeAddedForThePrisoner()
         {
-            var result = context.MedicalRecords.ToListAsync();
+            var result = await context.MedicalRecords.ToListAsync();
             Assert.NotNull(result);
         }
 
@@ -72,8 +72,8 @@ namespace ReqnrollTestProject.StepDefinitions
         [Then("The system will show an error message and medical record won't be added")]
         public void ThenTheSystemWillShowAnErrorMessageAndMedicalRecordWontBeAdded()
         {
-            Assert.False();
+            Assert.False(resultService.Success);
+            Assert.Equal("There are no prisoners registered in the system", resultService.Message);
         }
-
     }
 }

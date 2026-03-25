@@ -11,27 +11,27 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace ReqnrollTestProject.Features
+namespace ReqnrollTestProject.Features.MedicalRecordFeatures
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class AddPrisonerFeature : object, global::Xunit.IClassFixture<AddPrisonerFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class AddMedicalRecordFeature : object, global::Xunit.IClassFixture<AddMedicalRecordFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "AddPrisoner", "As staff member\r\nUser wants to add prisoner\r\nSo that he can manage the database", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/MedicalRecordFeatures", "AddMedicalRecord", "User will try to add a Medical Record", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "AddPrisoner.feature"
+#line 1 "AddMedicalRecord.feature"
 #line hidden
         
-        public AddPrisonerFeature(AddPrisonerFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public AddMedicalRecordFeature(AddMedicalRecordFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -105,16 +105,16 @@ namespace ReqnrollTestProject.Features
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 6
+#line 3
 #line hidden
-#line 7
-await testRunner.GivenAsync("The system is ready for prisoner to be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 4
+await testRunner.GivenAsync("The system is ready for medical record to be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/AddPrisoner.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MedicalRecordFeatures/AddMedicalRecord.feature.ndjson", 4);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -142,20 +142,20 @@ await testRunner.GivenAsync("The system is ready for prisoner to be added", ((st
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successfully adding a prisoner with valid data")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
-        [global::Xunit.TraitAttribute("Description", "Successfully adding a prisoner with valid data")]
-        [global::Xunit.TraitAttribute("Category", "AddPrisoner")]
-        public async global::System.Threading.Tasks.Task SuccessfullyAddingAPrisonerWithValidData()
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to add a medical record")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddMedicalRecord")]
+        [global::Xunit.TraitAttribute("Description", "User tries to add a medical record")]
+        [global::Xunit.TraitAttribute("Category", "AddMedicalRecord")]
+        public async global::System.Threading.Tasks.Task UserTriesToAddAMedicalRecord()
         {
             string[] tagsOfScenario = new string[] {
-                    "AddPrisoner"};
+                    "AddMedicalRecord"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successfully adding a prisoner with valid data", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to add a medical record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 7
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -165,36 +165,34 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 3
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
- await testRunner.WhenAsync("User adds a prisoner with FirsName \"Test\", LastName \"Prisoner\", Age 30, crime \"Te" +
-                        "st Crime\", Entry Date \"03/05/2026\", Sentence Lenght 1, Release Date \"03/05/2027\"" +
-                        ", Prison Block \"O Block\", Prison Cell 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 8
+ await testRunner.GivenAsync("There are prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 12
- await testRunner.ThenAsync("Prisoner will be added, an ID will be generated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 9
+ await testRunner.WhenAsync("User tries to add Medical Record for prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 10
+ await testRunner.ThenAsync("Medical Record will be added for the prisoner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Trying to add a prisoner without the correct role(not authorized to add prisoners" +
-            ")")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
-        [global::Xunit.TraitAttribute("Description", "Trying to add a prisoner without the correct role(not authorized to add prisoners" +
-            ")")]
-        public async global::System.Threading.Tasks.Task TryingToAddAPrisonerWithoutTheCorrectRoleNotAuthorizedToAddPrisoners()
+        [global::Xunit.SkippableFactAttribute(DisplayName="No prisoners are registered in the system")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddMedicalRecord")]
+        [global::Xunit.TraitAttribute("Description", "No prisoners are registered in the system")]
+        public async global::System.Threading.Tasks.Task NoPrisonersAreRegisteredInTheSystem()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Trying to add a prisoner without the correct role(not authorized to add prisoners" +
-                    ")", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("No prisoners are registered in the system", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
+#line 12
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -204,56 +202,17 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 3
 await this.FeatureBackgroundAsync();
+#line hidden
+#line 13
+ await testRunner.GivenAsync("There are no prisoners", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 14
+ await testRunner.WhenAsync("User tries to add Medical Record for prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 15
- await testRunner.GivenAsync("User is not with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 16
- await testRunner.WhenAsync("User adds a prisoner with FirsName \"Test 1\", LastName \"Prisoner 1\", Age 30, crime" +
-                        " \"Test Crime\", Entry Date \"03/05/2026\", Sentence Lenght 1, Release Date \"03/05/2" +
-                        "027\", Prison Block \"O Block\", Prison Cell 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 17
- await testRunner.ThenAsync("No prisoner will be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableFactAttribute(DisplayName="Trying to add a prisoner with invalid Name")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
-        [global::Xunit.TraitAttribute("Description", "Trying to add a prisoner with invalid Name")]
-        public async global::System.Threading.Tasks.Task TryingToAddAPrisonerWithInvalidName()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Trying to add a prisoner with invalid Name", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 19
-this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 6
-await this.FeatureBackgroundAsync();
-#line hidden
-#line 20
- await testRunner.GivenAsync("User is with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 21
- await testRunner.WhenAsync("User tries to add a prisoner with no Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 22
- await testRunner.ThenAsync("User receives an exception and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("The system will show an error message and medical record won\'t be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -266,12 +225,12 @@ await this.FeatureBackgroundAsync();
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AddPrisonerFeature.FeatureSetupAsync();
+                await AddMedicalRecordFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AddPrisonerFeature.FeatureTearDownAsync();
+                await AddMedicalRecordFeature.FeatureTearDownAsync();
             }
         }
     }

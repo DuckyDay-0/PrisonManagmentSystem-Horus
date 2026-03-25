@@ -20,3 +20,4 @@ Scenario: Trying to add a prisoner with invalid Name
 	Given User is with an "Admin" role
 	When User tries to add a prisoner with no Name
 	Then User receives an exception and no prisoner is added
+

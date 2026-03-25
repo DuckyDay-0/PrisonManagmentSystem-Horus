@@ -14,6 +14,7 @@ namespace PMS_Horus.Services
     public class PrisonerExtensionServices : IPrisonerExtensionServices
     {
         public PrisonDBContext context;
+        string currentUserRole = "Admin";
         //Can be accessed by admin or medical staff
         public PrisonerExtensionServices(PrisonDBContext context) 
         {
@@ -28,6 +29,11 @@ namespace PMS_Horus.Services
             }
             //Check here
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == medicalRecord.PrisonerId);
+            if (prisoner == null)
+            {
+                return new ResultService<MedicalRecord>(false, "There are no prisoners registered in the system");
+            }
+            medicalRecord.PrisonerId = prisoner.PrisonerId;
 
             try
             {
@@ -41,28 +47,48 @@ namespace PMS_Horus.Services
             }         
         }
 
-        public async Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int prisonerId)
+        public async Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int pidn)
         {
-            var medRecord = await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerId == prisonerId);
+            var prisoner = context.Prisoners.FirstOrDefault(p => p.PersonalIDNumber == pidn);
+            if (prisoner == null)
+            {
+                return new ResultService<MedicalRecord>(false, "No Prisoner Found With This PIDN");
+            }
+
+            var medRecord = await context.MedicalRecords.FirstOrDefaultAsync(p => p.PrisonerId == prisoner.PrisonerId);
             if(medRecord == null)
             {
                 return new ResultService<MedicalRecord>(false, "No Med Records Available");
             }
-            return new ResultService<MedicalRecord>(true, "", medRecord);
+            return new ResultService<MedicalRecord>(true, "Medical Record is Available", medRecord);
         }
 
-        public async Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int prisonerId)
+        public async Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int pidn)
         {
-            var medicalRecordPrisoner = await context.MedicalRecords.FirstOrDefaultAsync(p => p.PrisonerId == prisonerId);
+            if (currentUserRole != "Admin" || currentUserRole != "Medic")
+            {
+                return new ResultService<MedicalRecord>(false, "You are not authorized to perform this kind of action!");
+            }
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
+            if (prisoner == null)
+            {
+                return new ResultService<MedicalRecord>(false, "No prisoner found with the given PIDN");
+            }
+
+            var medRecord = await context.MedicalRecords.FirstOrDefaultAsync(m => m.PrisonerId == prisoner.PrisonerId);
+            if (medRecord == null)
+            {
+                return new ResultService<MedicalRecord>(false, "No Med Records Found for this prisoner.");
+            }
             try
             {
-                var medRecord = context.MedicalRecords.Remove(medicalRecordPrisoner);
+                context.MedicalRecords.Remove(medRecord);
                 await context.SaveChangesAsync();
-                return new ResultService<MedicalRecord>(true, "Medical Record Removed");
+                return new ResultService<MedicalRecord>(true, $"Medical Record for Prisoner removed");
             }
             catch
             {
-                return new ResultService<MedicalRecord>(false, "//RemoveRecordException");
+                return new ResultService<MedicalRecord>(false, "An error occured");
             }
         }
 

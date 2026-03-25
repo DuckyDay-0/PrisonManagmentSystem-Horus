@@ -4,7 +4,7 @@ name or either just all prisoners
 Background: 
 Given The system is ready to get prisoners 
 
-@GetPrisoner
+@GetPrisonerFeature
 Scenario: User is trying to get all prisoners
 	Given There are three prisoners in the database
 	When User tries to get all prisoners 
@@ -19,6 +19,11 @@ Scenario: User is trying to get prisoner by ID
 	Given There are three prisoners in the database
 	When User tries to get prisoner with ID 343123
 	Then The system will return prisoner with ID 3
+
+Scenario: User tries to get prisoner by wrong ID
+	Given There are three prisoners in the database
+	When User tries to get prisoner with ID 0000
+	Then The system will show an error message
 
 Scenario: User is trying to get prisoner by FirstName and LastName
 	Given There are three prisoners in the database

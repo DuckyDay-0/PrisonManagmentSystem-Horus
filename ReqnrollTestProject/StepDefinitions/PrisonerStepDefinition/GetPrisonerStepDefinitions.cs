@@ -6,7 +6,7 @@ using PMS_Horus.Services;
 using Reqnroll;
 using Reqnroll.Formatters.PayloadProcessing.Cucumber;
 
-namespace ReqnrollTestProject.StepDefinitions
+namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
 {
     [Binding]
     public class GetPrisonerStepDefinitions
@@ -72,6 +72,12 @@ namespace ReqnrollTestProject.StepDefinitions
         public async Task WhenUserTriesToGetPrisonerWithID(int id)
         {
             resultService = await service.GetPrisonerByIDAsync(id);
+        }
+
+        [Then("The system will show an error message")]
+        public void ThenTheSystemWillShowAnErrorMessage()
+        {
+            Assert.Equal("No Prisoner with those details!", resultService.Message);
         }
 
         [Then("The system will return prisoner with ID {int}")]

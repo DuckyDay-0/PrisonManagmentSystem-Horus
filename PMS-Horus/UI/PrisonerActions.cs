@@ -107,7 +107,7 @@ namespace PMS_Horus.UI
             //Confirmation
             Console.WriteLine("Confirm if this is the prisoner you want to delete.");
             Console.WriteLine();
-            Console.WriteLine($"{id} | Full Name: {result.Data.FirstName} {result.Data.LastName}");
+            Console.WriteLine($"{result.Data.PersonalIDNumber} | Full Name: {result.Data.FirstName} {result.Data.LastName}");
             Console.WriteLine($"Crime: {result.Data.Crime}");
             Console.WriteLine($"Sentence Lenght: {result.Data.SentenceLenght}");
             Console.WriteLine("If you want to continue please type ~Yes~");
@@ -159,7 +159,7 @@ namespace PMS_Horus.UI
             { 
                 foreach (var prisoner in prisoners.Data)
                 {
-                    Console.WriteLine($"ID Number:  | Full Name: {prisoner.FirstName} {prisoner.LastName}| Age: {prisoner.Age} | Crime: {prisoner.Crime}");
+                    Console.WriteLine($"ID Number: {prisoner.PersonalIDNumber} | Full Name: {prisoner.FirstName} {prisoner.LastName}| Age: {prisoner.Age} | Crime: {prisoner.Crime}");
                     Console.WriteLine($"Entry Date: {prisoner.EntryDate} | Release Date: {prisoner.ReleaseDate} | Sentence Lenght: {prisoner.SentenceLenght}");
                     Console.WriteLine($"Cell Block: {prisoner.PrisonBlock} | Cell: {prisoner.PrisonCell}");
                     Console.WriteLine("======================================================================================================================");

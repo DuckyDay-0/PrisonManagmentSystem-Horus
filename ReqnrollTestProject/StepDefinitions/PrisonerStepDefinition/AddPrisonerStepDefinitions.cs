@@ -7,7 +7,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace ReqnrollTestProject.StepDefinitions
+namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
 {
     [Binding]
     public class AddPrisonerStepDefinitions
