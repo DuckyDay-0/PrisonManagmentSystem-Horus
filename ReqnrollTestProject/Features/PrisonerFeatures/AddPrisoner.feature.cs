@@ -171,7 +171,7 @@ await this.FeatureBackgroundAsync();
 #line 11
  await testRunner.WhenAsync("User adds a prisoner with FirsName \"Test\", LastName \"Prisoner\", Age 30, crime \"Te" +
                         "st Crime\", Entry Date \"03/05/2026\", Sentence Lenght 1, Release Date \"03/05/2027\"" +
-                        ", Prison Block \"O Block\", Prison Cell 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+                        ", Prison Block \"O Block\", Prison Cell 1, PersonalIDNumber 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 12
  await testRunner.ThenAsync("Prisoner will be added, an ID will be generated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -213,7 +213,7 @@ await this.FeatureBackgroundAsync();
 #line 16
  await testRunner.WhenAsync("User adds a prisoner with FirsName \"Test 1\", LastName \"Prisoner 1\", Age 30, crime" +
                         " \"Test Crime\", Entry Date \"03/05/2026\", Sentence Lenght 1, Release Date \"03/05/2" +
-                        "027\", Prison Block \"O Block\", Prison Cell 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+                        "027\", Prison Block \"O Block\", Prison Cell 1, PersonalIDNumber 5512543", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
  await testRunner.ThenAsync("No prisoner will be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -250,10 +250,12 @@ await this.FeatureBackgroundAsync();
  await testRunner.GivenAsync("User is with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 21
- await testRunner.WhenAsync("User tries to add a prisoner with no Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("User adds a prisoner with FirsName \"\", LastName \"Prisoner 1\", Age 30, crime \"Test" +
+                        " Crime\", Entry Date \"03/05/2026\", Sentence Lenght 1, Release Date \"03/05/2027\", " +
+                        "Prison Block \"O Block\", Prison Cell 1, PersonalIDNumber 5512543", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 22
- await testRunner.ThenAsync("User receives an exception and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("The system will return a message saying \"Missing Data!Try Again!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -328,7 +330,8 @@ await this.FeatureBackgroundAsync();
     await testRunner.WhenAsync("User tries to add a prisoner with negative Sentence Length", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 33
-    await testRunner.ThenAsync("User receives an error message saying \"\" and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("User receives an error message saying \"Missing Data!Try Again!\" and no prisoner i" +
+                        "s added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -368,7 +371,8 @@ await this.FeatureBackgroundAsync();
     await testRunner.WhenAsync("User tries to add a prisoner with PersonalIDNumber 0000", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 39
-    await testRunner.ThenAsync("User receives an error message saying \"\" and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("User receives an error message saying \"Prisoner with this PIDN already exists!\" a" +
+                        "nd no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

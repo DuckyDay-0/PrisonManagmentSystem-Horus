@@ -23,18 +23,32 @@ namespace PMS_Horus.Services
 
         public async Task<ResultService<Prisoner>> AddPrisonerAsync(Prisoner prisoner, string currentUserRole)
         {
+
             int minimumAgeForPrison = 18;
             if (currentUserRole != "Admin")
             {
                 return new ResultService<Prisoner>(false, "You are not authorized to perform this action!");
             }
 
-            var pidnCheck = context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == prisoner.PersonalIDNumber);
+            if (string.IsNullOrWhiteSpace(prisoner.FirstName) ||
+                string.IsNullOrWhiteSpace(prisoner.LastName) ||
+                string.IsNullOrWhiteSpace(prisoner.Crime) ||
+                string.IsNullOrWhiteSpace(prisoner.PrisonBlock))
+            {
+                return new ResultService<Prisoner>(false, "Missing Data!Try Again!");
+            }
+            
+            if (prisoner.SentenceLenght <= 0 || prisoner.PrisonCell < 0 || prisoner.PersonalIDNumber <= 0)
+            {
+                return new ResultService<Prisoner>(false, "Missing Data!Try Again!");
+            }
+            var pidnCheck = context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == prisoner.PersonalIDNumber).Result;
 
             if (pidnCheck != null)
             {
-                return new ResultService<Prisoner>(false, "Prisoner with this PIDN already exists!");
+                return new ResultService<Prisoner>(false, "Prisoner with this PIDN already exists!", prisoner);
             }
+
             if (prisoner.Age < minimumAgeForPrison)
             {
                 return new ResultService<Prisoner>(false, "Prisoner's Age can't be under 18! If he is please refer to the correct facility!", prisoner);
@@ -49,7 +63,7 @@ namespace PMS_Horus.Services
             }
             catch
             {       
-               return new ResultService<Prisoner>(false,"There was a problem with the data being added. Try Again!");
+               return new ResultService<Prisoner>(false,"There was a problem with the data being added. Try Again!", prisoner);
             }
 
         }

@@ -24,7 +24,7 @@ namespace ReqnrollTestProject.Features.BehaviorRecord
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/BehaviorRecord", "AddBehaviorRecord", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/BehaviorRecord", "AddBehaviorRecord", "User tries to add medical record", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -103,9 +103,18 @@ namespace ReqnrollTestProject.Features.BehaviorRecord
             await testRunner.CollectScenarioErrorsAsync();
         }
         
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
+        {
+#line 3
+#line hidden
+#line 4
+await testRunner.GivenAsync("The system is ready for behavior records", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BehaviorRecord/AddBehaviorRecord.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BehaviorRecord/AddBehaviorRecord.feature.ndjson", 7);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -133,17 +142,15 @@ namespace ReqnrollTestProject.Features.BehaviorRecord
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="[scenario name]")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successfully adding a good behavior record by an Officer")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AddBehaviorRecord")]
-        [global::Xunit.TraitAttribute("Description", "[scenario name]")]
-        [global::Xunit.TraitAttribute("Category", "tag1")]
-        public async global::System.Threading.Tasks.Task ScenarioName()
+        [global::Xunit.TraitAttribute("Description", "Successfully adding a good behavior record by an Officer")]
+        public async global::System.Threading.Tasks.Task SuccessfullyAddingAGoodBehaviorRecordByAnOfficer()
         {
-            string[] tagsOfScenario = new string[] {
-                    "tag1"};
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("[scenario name]", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successfully adding a good behavior record by an Officer", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 6
@@ -156,14 +163,189 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
 #line 7
- await testRunner.GivenAsync("[context]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("There is a prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
- await testRunner.WhenAsync("[action]", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.AndAsync("User is logged in with \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 9
- await testRunner.ThenAsync("[outcome]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.WhenAsync("User adds a \"Good\" behavior record \"Helped in the kitchen\" for prisoner 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 10
+ await testRunner.ThenAsync("The behavior record is saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to add behavior record for prisoner without the correct role")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddBehaviorRecord")]
+        [global::Xunit.TraitAttribute("Description", "User tries to add behavior record for prisoner without the correct role")]
+        public async global::System.Threading.Tasks.Task UserTriesToAddBehaviorRecordForPrisonerWithoutTheCorrectRole()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to add behavior record for prisoner without the correct role", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 12
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 13
+ await testRunner.GivenAsync("There are three prisoners registered in the system", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 14
+ await testRunner.AndAsync("User is assigned with a \"Medic\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 15
+ await testRunner.WhenAsync("User adds a Behavior Record with Severity \"Bad\", Description \"Fight\" for prisoner" +
+                        " with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 16
+ await testRunner.ThenAsync("The system returns error \"You are not authorized to perform this kind of action!\"" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Adding record for non-existing prisoner")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddBehaviorRecord")]
+        [global::Xunit.TraitAttribute("Description", "Adding record for non-existing prisoner")]
+        public async global::System.Threading.Tasks.Task AddingRecordForNon_ExistingPrisoner()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Adding record for non-existing prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 18
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 19
+ await testRunner.GivenAsync("There are no prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 20
+ await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 21
+ await testRunner.WhenAsync("User adds a Behavior Record with Severity \"Bad\", Description \"Escape\" for prisone" +
+                        "r with PIDN 00001", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 22
+ await testRunner.ThenAsync("The system returns error \"Prisoner not found!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Adding record with empty description")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddBehaviorRecord")]
+        [global::Xunit.TraitAttribute("Description", "Adding record with empty description")]
+        public async global::System.Threading.Tasks.Task AddingRecordWithEmptyDescription()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Adding record with empty description", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 24
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 25
+ await testRunner.GivenAsync("There are three prisoners registered in the system", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 26
+ await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 27
+ await testRunner.WhenAsync("User adds a Behavior Record with Severity \"Good\", Description \"\" for prisoner wit" +
+                        "h PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 28
+ await testRunner.ThenAsync("The system returns error \"Description cannot be empty!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can add multiple behavior records for one prisoner")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddBehaviorRecord")]
+        [global::Xunit.TraitAttribute("Description", "Admin can add multiple behavior records for one prisoner")]
+        public async global::System.Threading.Tasks.Task AdminCanAddMultipleBehaviorRecordsForOnePrisoner()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin can add multiple behavior records for one prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 30
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 31
+ await testRunner.GivenAsync("There are three prisoners registered in the system", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+ await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 33
+ await testRunner.WhenAsync("User adds a Behavior Record with Severity \"Bad\", Description \"Fight\" for prisoner" +
+                        " with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 34
+ await testRunner.AndAsync("User adds a Behavior Record with Severity \"Bad\", Description \"Cop Fight\" for pris" +
+                        "oner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 35
+ await testRunner.ThenAsync("The prisoner has 2 behavior records in total", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

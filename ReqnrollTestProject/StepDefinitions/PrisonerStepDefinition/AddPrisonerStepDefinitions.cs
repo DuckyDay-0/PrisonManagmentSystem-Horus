@@ -27,15 +27,13 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
                 .Options;
 
             context = new PrisonDBContext(options);
-
             services = new PrisonerService(context);
         }
 
-        [When("User adds a prisoner with FirsName {string}, LastName {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}, Prison Block {string}, Prison Cell {int}")]
-        public async Task WhenUserAddsAPrisonerWithFirsNameLastNameAgeCrimeEntryDateSentenceLenghtReleaseDatePrisonBlockPrisonCell(string firstName, string lastName, int age, string crime, string entryDate, int sentenceLenght, string releaseDate, string prisonBlock, int prisonCell)
+        [When("User adds a prisoner with FirsName {string}, LastName {string}, Age {int}, crime {string}, Entry Date {string}, Sentence Lenght {int}, Release Date {string}, Prison Block {string}, Prison Cell {int}, PersonalIDNumber {int}")]
+        public async Task WhenUserAddsAPrisonerWithFirsNameLastNameAgeCrimeEntryDateSentenceLenghtReleaseDatePrisonBlockPrisonCell(string firstName, string lastName, int age, string crime, string entryDate, int sentenceLenght, string releaseDate, string prisonBlock, int prisonCell, int personalIDNumber)
         {
             DateOnly entryDateParsed = DateOnly.Parse(entryDate);
-            services = new PrisonerService(context);
             var prisoner = new Prisoner()
             {
                 FirstName = firstName,
@@ -46,7 +44,8 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
                 SentenceLenght = sentenceLenght,
                 ReleaseDate = entryDateParsed.AddYears(sentenceLenght),
                 PrisonBlock = prisonBlock,
-                PrisonCell = prisonCell
+                PrisonCell = prisonCell,
+                PersonalIDNumber = personalIDNumber
             };
 
            resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
@@ -79,18 +78,11 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
         {
             currentUserRole = "Admin";
         }
-
-        [When("User tries to add a prisoner with no Name")]
-        public async Task WhenITryToAddAPrisonerWithNoName()
+     
+        [Then("The system will return a message saying {string}")]
+        public void TheSystemWillReturnAMessageSaying(string message)
         {
-            var prisoner = new Prisoner() { FirstName = "" };       
-            resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
-        }
-
-        [Then("User receives an exception and no prisoner is added")]
-        public void ThenUserReceiveAnExceptionAndNoPrisonerIsAdded()
-        {
-            Assert.Contains("There was a problem with the data being added. Try Again!", resultService.Message);
+            Assert.Contains(message, resultService.Message);
             Assert.False(resultService.Success);          
         }
 
@@ -101,21 +93,25 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
             var baseDate = new DateOnly(2023, 05, 10);
 
             var prisoner = new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = age, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 11221 };
-           resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
+            resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
         }
        
         [Then("User receives an error message saying {string} and no prisoner is added")]
-        public async Task ThenUserReceivesAnErrorMessageSayingAndNoPrisonerIsAdded(string message)
+        public async Task ThenUserReceivesAnErrorMessageSayingAndNoPrisonerWithTheSamePIDNIsAdded(string message)
         {
-            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == resultService.Data.PersonalIDNumber);
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.LastName == "Macaroni");
+            
             Assert.Null(prisoner);
             Assert.Equal(message, resultService.Message);
         }
 
         [When("User tries to add a prisoner with negative Sentence Length")]
-        public void WhenUserTriesToAddAPrisonerWithNegativeSentenceLength()
+        public async Task WhenUserTriesToAddAPrisonerWithNegativeSentenceLength()
         {
-            throw new PendingStepException();
+            var baseDate = new DateOnly(2023, 05, 10);
+
+            var prisoners = new Prisoner { FirstName = "Doni", LastName = "Macaroni", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = -3, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 545454 };
+            resultService = await services.AddPrisonerAsync(prisoners, currentUserRole);
         }
 
         [Given("There is already a prisoner with PersonalIDNumber {int}")]
@@ -124,7 +120,7 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
             var baseDate = new DateOnly(2023, 05, 10);
             var prisoners = new List<Prisoner>()
             {
-                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 0000}
+                new Prisoner { FirstName = "Vladko", LastName = "asdasd", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 545454}
             };
 
             context.Prisoners.AddRange(prisoners);
@@ -132,9 +128,13 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
         }
 
         [When("User tries to add a prisoner with PersonalIDNumber {int}")]
-        public void WhenUserTriesToAddAPrisonerWithPersonalIDNumber(int pidn)
+        public async Task WhenUserTriesToAddAPrisonerWithPersonalIDNumber(int pidn)
         {
-            throw new PendingStepException();
+            var baseDate = new DateOnly(2023, 05, 10);
+
+            var prisoners = new Prisoner { FirstName = "Doni", LastName = "Macaroni", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 545454 };
+            
+            resultService = await services.AddPrisonerAsync(prisoners, currentUserRole);
         }
 
     }

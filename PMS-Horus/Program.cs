@@ -21,10 +21,12 @@ namespace PMSHorus
                     services.AddDbContext<PrisonDBContext>();
                     services.AddScoped<IPrisonerServices, PrisonerService>();
                     services.AddScoped<IPrisonerExtensionServices, PrisonerExtensionServices>();
+                    services.AddScoped<IBehaviorRecordService, BehaviorRecordService>();
                     services.AddTransient<StartingPage>();
                     services.AddTransient<PrisonerActions>();
                     services.AddTransient<PrisonerExtensionActions>();
                     services.AddTransient<GetPrisonerByUI>();
+                    services.AddTransient<BehaviorRecordActions>();
                     
                 })
                 .Build();

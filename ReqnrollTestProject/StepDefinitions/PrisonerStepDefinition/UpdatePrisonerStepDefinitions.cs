@@ -65,7 +65,6 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
         public async Task WhenUserChoosesOptionNumberOnTheMenuToUpdatesTheSentenceLengthOfPrisonerWithPersonalIDNumberToYears(int choice, int pidn, string newValue)
         {
             resultService = await service.UpdatePrisonerAsync(pidn, choice, currentUserRole, newValue);
-            //updatedPrisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
         }
 
         [Then("The Sentence Length should be updated to {int}")]

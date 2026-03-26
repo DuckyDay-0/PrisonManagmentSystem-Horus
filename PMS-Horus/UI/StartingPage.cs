@@ -14,14 +14,17 @@ namespace PMS_Horus.UI
         private IPrisonerExtensionServices extensionServices;
         private PrisonerActions actions;
         private PrisonerExtensionActions extensionsActions;
+        private BehaviorRecordActions behaviorRecordActions;
         private GetPrisonerByUI getPrisonerByUI;
-        public StartingPage(IPrisonerServices service, PrisonerActions actions, IPrisonerExtensionServices extensionServices, PrisonerExtensionActions extensionActions, GetPrisonerByUI getPrisonerByUI) 
+        public StartingPage(IPrisonerServices service, PrisonerActions actions, IPrisonerExtensionServices extensionServices, 
+                            PrisonerExtensionActions extensionActions, GetPrisonerByUI getPrisonerByUI, BehaviorRecordActions behaviorRecordActions) 
         {
             this.service = service;
             this.actions = actions;
             this.extensionServices = extensionServices;
             this.extensionsActions = extensionActions;
             this.getPrisonerByUI = getPrisonerByUI;
+            this.behaviorRecordActions = behaviorRecordActions;
         }
         public async Task RunAsync()
         {
@@ -73,6 +76,9 @@ namespace PMS_Horus.UI
                         break;
 
                     case 7:
+                        await behaviorRecordActions.BehaviorRecordActionsUI();
+                        break;
+                    
 
                     case 0:
                         running = false;

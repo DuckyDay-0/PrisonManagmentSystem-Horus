@@ -168,7 +168,7 @@ namespace PMS_Horus.UI
                 };
 
                 await extensionServices.AddMedicalRecordAsync(medicalRecord, currentUserRole);
-                Console.WriteLine("Prisoner Added!");
+                Console.WriteLine("Medical Record Added!");
 
             }
 

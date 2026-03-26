@@ -30,6 +30,16 @@ namespace PMS_Horus.Services
 
             return result;
         }
+        public DateTime ReadDateTime()
+        {
+            DateTime result;
+            if (!DateTime.TryParse(Console.ReadLine(), out result))
+            {
+                throw new InvalidDataException("Invalid Data! Try Again!");
+            }
+
+            return result;
+        }
         public string ReadString()
         {
             string result = Console.ReadLine();

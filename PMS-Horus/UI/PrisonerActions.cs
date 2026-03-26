@@ -73,7 +73,9 @@ namespace PMS_Horus.UI
             var result = await services.AddPrisonerAsync(prisoner, currentUserRole);
             if (!result.Success)
             {
+                Console.Clear();
                 Console.WriteLine($"{result.Message}");
+                Console.ReadKey();
             }
             else
             {

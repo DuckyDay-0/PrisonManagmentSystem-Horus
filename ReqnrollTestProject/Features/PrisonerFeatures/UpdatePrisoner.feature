@@ -26,3 +26,8 @@ Scenario: Successfully update a prisoner's first name
     Given User is logged in with "Admin" role
     When User chooses option number 3 on the menu to update the Crime of prisoner with PersonalIDNumber 999999999 to "Assault"
     Then The system will show an error message saying "No Prisoner found"
+
+ Scenario: Attempt to update with empty value
+    And User is logged in with "Admin" role
+    When User chooses option number 1 on the menu to updates the FirstName of prisoner with PersonalIDNumber 11221 to ""
+    Then The system will show an error message saying "Invalid Data!"
