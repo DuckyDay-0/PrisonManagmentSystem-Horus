@@ -167,13 +167,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 7
- await testRunner.GivenAsync("There is a prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("There are three prisoners registered in the system", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
  await testRunner.AndAsync("User is logged in with \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 9
- await testRunner.WhenAsync("User adds a \"Good\" behavior record \"Helped in the kitchen\" for prisoner 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("User adds a Behavior Record with Severity \"Good\", Description \"Helped\" for prison" +
+                        "er with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 10
  await testRunner.ThenAsync("The behavior record is saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -249,7 +250,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 19
- await testRunner.GivenAsync("There are no prisoners in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("There are no prisoners in the database for behavior record to be added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 20
  await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
