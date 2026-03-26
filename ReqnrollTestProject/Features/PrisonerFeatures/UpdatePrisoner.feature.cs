@@ -24,7 +24,7 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/PrisonerFeatures", "UpdatePrisoner", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/PrisonerFeatures", "UpdatePrisoner", "User tries to update prisoner", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -103,9 +103,21 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
             await testRunner.CollectScenarioErrorsAsync();
         }
         
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
+        {
+#line 4
+#line hidden
+#line 5
+await testRunner.GivenAsync("The system is ready for prisoner to be updated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 6
+await testRunner.AndAsync("There are prisoners in the database to be updated", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+        }
+        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/UpdatePrisoner.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/UpdatePrisoner.feature.ndjson", 6);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -133,20 +145,20 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="[scenario name]")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successfully update a prisoner\'s first name")]
         [global::Xunit.TraitAttribute("FeatureTitle", "UpdatePrisoner")]
-        [global::Xunit.TraitAttribute("Description", "[scenario name]")]
-        [global::Xunit.TraitAttribute("Category", "tag1")]
-        public async global::System.Threading.Tasks.Task ScenarioName()
+        [global::Xunit.TraitAttribute("Description", "Successfully update a prisoner\'s first name")]
+        [global::Xunit.TraitAttribute("Category", "UpdatePrisoner")]
+        public async global::System.Threading.Tasks.Task SuccessfullyUpdateAPrisonersFirstName()
         {
             string[] tagsOfScenario = new string[] {
-                    "tag1"};
+                    "UpdatePrisoner"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("[scenario name]", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successfully update a prisoner\'s first name", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 9
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -156,14 +168,136 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
- await testRunner.GivenAsync("[context]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 4
+await this.FeatureBackgroundAsync();
 #line hidden
-#line 8
- await testRunner.WhenAsync("[action]", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 10
+    await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 9
- await testRunner.ThenAsync("[outcome]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 11
+    await testRunner.WhenAsync("User chooses option number 1 on the menu to updates the FirstName of prisoner wit" +
+                        "h PersonalIDNumber 11221 to \"Alexander\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 12
+    await testRunner.ThenAsync("The prisoner\'s FirstName should be successfully updated to \"Alexander\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successfully update sentence length and recalculate release date")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "UpdatePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Successfully update sentence length and recalculate release date")]
+        public async global::System.Threading.Tasks.Task SuccessfullyUpdateSentenceLengthAndRecalculateReleaseDate()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successfully update sentence length and recalculate release date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 14
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 4
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 15
+    await testRunner.AndAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+    await testRunner.WhenAsync("User choose option number 4 on the menu to updates the Sentence Length of prisone" +
+                        "r with PersonalIDNumber 11221 to 5 years", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 17
+    await testRunner.ThenAsync("The Sentence Length should be updated to 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 18
+    await testRunner.AndAsync("The Release Date should be automatically recalculated", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Attempt to update prisoner without admin rights")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "UpdatePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Attempt to update prisoner without admin rights")]
+        public async global::System.Threading.Tasks.Task AttemptToUpdatePrisonerWithoutAdminRights()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Attempt to update prisoner without admin rights", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 20
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 4
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 21
+    await testRunner.AndAsync("User is logged in with \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 22
+    await testRunner.WhenAsync("User choose option number 2 on the menu to update the Age of prisoner with Person" +
+                        "alIDNumber 11221 to 35", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 23
+    await testRunner.ThenAsync("The system will show an error message saying \"You don\'t have the authorization to" +
+                        " perform this action!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Attempt to update non-existing prisoner")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "UpdatePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Attempt to update non-existing prisoner")]
+        public async global::System.Threading.Tasks.Task AttemptToUpdateNon_ExistingPrisoner()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Attempt to update non-existing prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 25
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 4
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 26
+    await testRunner.GivenAsync("User is logged in with \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 27
+    await testRunner.WhenAsync("User chooses option number 3 on the menu to update the Crime of prisoner with Per" +
+                        "sonalIDNumber 999999999 to \"Assault\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 28
+    await testRunner.ThenAsync("The system will show an error message saying \"No Prisoner found\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

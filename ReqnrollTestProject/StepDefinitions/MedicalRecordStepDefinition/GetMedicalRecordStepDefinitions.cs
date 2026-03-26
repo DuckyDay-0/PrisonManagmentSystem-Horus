@@ -60,7 +60,7 @@ namespace ReqnrollTestProject.StepDefinitions.MedicalRecordStepDefinition
         [When("User tries to get Medical Record for prisoner with PIDN {int}.")]
         public async Task WhenUserTriesToGetMedicalRecordForPrisonerWithPIDN_(int pidn)
         {
-            resultService = await extensionServices.GetMedicalRecordAsync(pidn);
+            resultService = await extensionServices.GetMedicalRecordAsync(pidn, currentUserRole);
         }
 
         [Then("The system will return the medical record for prisoner with PIDN {int}.")]
@@ -75,5 +75,29 @@ namespace ReqnrollTestProject.StepDefinitions.MedicalRecordStepDefinition
             Assert.Equal(prisoner.Id, resultService.Data.PrisonerId);
         }
 
+
+
+        [When("User tries to get Medical Record for prisoner with PIDN {int}")]
+        public async Task WhenUserTriesToGetMedicalRecordForPrisonerWithPIDN(int pidn)
+        {
+            resultService = await extensionServices.GetMedicalRecordAsync(pidn, currentUserRole); 
+        }
+
+        [Then("The system should show an error saying {string}")]
+        public void ThenTheSystemShouldShowAnErrorSaying(string message)
+        {
+            Assert.Equal(message, resultService.Message);
+        }
+
+        [Given("The prisoner with PIDN {int} does not have a medical record")]
+        public void GivenThePrisonerWithPIDNDoesNotHaveAMedicalRecord(int p0)
+        {
+        }
+
+        [Given("User is assigned with {string} role")]
+        public void GivenUserIsAssignedWithRole(string role)
+        {
+            currentUserRole = role;
+        }
     }
 }

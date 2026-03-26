@@ -304,10 +304,10 @@ await this.FeatureBackgroundAsync();
  await testRunner.GivenAsync("There are 3 prisoners registered in the system", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 31
- await testRunner.AndAsync("Prisoner with PIDN 11221 has a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.ButAsync("The user is assigned with a \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "But ");
 #line hidden
 #line 32
- await testRunner.ButAsync("The User is assigned a \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "But ");
+ await testRunner.AndAsync("Prisoner with PIDN 11221 has a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 33
  await testRunner.WhenAsync("The user tries to delete the medical record for prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

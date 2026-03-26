@@ -24,7 +24,7 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/PrisonerFeatures", "DeletePrisoner", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/PrisonerFeatures", "DeletePrisoner", "User will try to delete prisoner", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -103,9 +103,18 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
             await testRunner.CollectScenarioErrorsAsync();
         }
         
+        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
+        {
+#line 3
+#line hidden
+#line 4
+await testRunner.GivenAsync("The system is ready for prisoner to be deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+        }
+        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/DeletePrisoner.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/DeletePrisoner.feature.ndjson", 6);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -133,20 +142,20 @@ namespace ReqnrollTestProject.Features.PrisonerFeatures
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="[scenario name]")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to delete an existing prisoner")]
         [global::Xunit.TraitAttribute("FeatureTitle", "DeletePrisoner")]
-        [global::Xunit.TraitAttribute("Description", "[scenario name]")]
-        [global::Xunit.TraitAttribute("Category", "tag1")]
-        public async global::System.Threading.Tasks.Task ScenarioName()
+        [global::Xunit.TraitAttribute("Description", "User tries to delete an existing prisoner")]
+        [global::Xunit.TraitAttribute("Category", "DeletePrisoner")]
+        public async global::System.Threading.Tasks.Task UserTriesToDeleteAnExistingPrisoner()
         {
             string[] tagsOfScenario = new string[] {
-                    "tag1"};
+                    "DeletePrisoner"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("[scenario name]", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to delete an existing prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -156,14 +165,150 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
- await testRunner.GivenAsync("[context]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 3
+await this.FeatureBackgroundAsync();
 #line hidden
 #line 8
- await testRunner.WhenAsync("[action]", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.GivenAsync("There are three prisoners in the database ready to be deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 9
- await testRunner.ThenAsync("[outcome]", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.AndAsync("The User is assigned with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 10
+ await testRunner.WhenAsync("User tries to delete prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 11
+ await testRunner.ThenAsync("The system will return a message and the prisoner with PIDN 11221 will be deleted" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to delete a non existing prisoner")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "DeletePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "User tries to delete a non existing prisoner")]
+        public async global::System.Threading.Tasks.Task UserTriesToDeleteANonExistingPrisoner()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to delete a non existing prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 13
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 14
+ await testRunner.GivenAsync("There are three prisoners in the database ready to be deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 15
+ await testRunner.AndAsync("The User is assigned with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+ await testRunner.WhenAsync("User tries to delete prisoner with PIDN 0000", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 17
+ await testRunner.ThenAsync("The system will return a message saying \"Prisoner with this PIDN does not exist!\"" +
+                        " and resultService will return false", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to delete an existing prisoner with the incorrect role")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "DeletePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "User tries to delete an existing prisoner with the incorrect role")]
+        public async global::System.Threading.Tasks.Task UserTriesToDeleteAnExistingPrisonerWithTheIncorrectRole()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to delete an existing prisoner with the incorrect role", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 19
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 20
+ await testRunner.GivenAsync("There are three prisoners in the database ready to be deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 21
+ await testRunner.AndAsync("The User is assigned with an \"Medic\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 22
+ await testRunner.WhenAsync("User tries to delete prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 23
+ await testRunner.ThenAsync("The system will return a message saying \"You don\'t have the authorization to perf" +
+                        "orm this action!\" and resultService will return false", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="User tries to delete an existing prisoner with the correct role and the prisoner " +
+            "has a medical record")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "DeletePrisoner")]
+        [global::Xunit.TraitAttribute("Description", "User tries to delete an existing prisoner with the correct role and the prisoner " +
+            "has a medical record")]
+        public async global::System.Threading.Tasks.Task UserTriesToDeleteAnExistingPrisonerWithTheCorrectRoleAndThePrisonerHasAMedicalRecord()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User tries to delete an existing prisoner with the correct role and the prisoner " +
+                    "has a medical record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 25
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 26
+ await testRunner.GivenAsync("There are three prisoners in the database ready to be deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 27
+ await testRunner.AndAsync("The User is assigned with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+ await testRunner.AndAsync("The Prisoner with PIDN 12345 has a Medical Record", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 29
+ await testRunner.WhenAsync("User tries to delete prisoner with PIDN 12345", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 30
+ await testRunner.ThenAsync("The system will return a message saying \"Prisoner Deleted\", resultService will re" +
+                        "turn true and the Medical Record for Prisoner with PIDN 12345 will be removed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

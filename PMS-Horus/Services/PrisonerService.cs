@@ -23,13 +23,24 @@ namespace PMS_Horus.Services
 
         public async Task<ResultService<Prisoner>> AddPrisonerAsync(Prisoner prisoner, string currentUserRole)
         {
+            int minimumAgeForPrison = 18;
             if (currentUserRole != "Admin")
             {
                 return new ResultService<Prisoner>(false, "You are not authorized to perform this action!");
             }
 
-            prisoner.ReleaseDate = prisoner.EntryDate.AddYears(prisoner.SentenceLenght);
+            var pidnCheck = context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == prisoner.PersonalIDNumber);
 
+            if (pidnCheck != null)
+            {
+                return new ResultService<Prisoner>(false, "Prisoner with this PIDN already exists!");
+            }
+            if (prisoner.Age < minimumAgeForPrison)
+            {
+                return new ResultService<Prisoner>(false, "Prisoner's Age can't be under 18! If he is please refer to the correct facility!", prisoner);
+            }
+            prisoner.ReleaseDate = prisoner.EntryDate.AddYears(prisoner.SentenceLenght);
+            
             try
             {
                 context.Prisoners.Add(prisoner);
@@ -43,18 +54,18 @@ namespace PMS_Horus.Services
 
         }
 
-        public async Task<ResultService<Prisoner>> DeletePrisonerAsync(int id, string currentUserRole)
+        public async Task<ResultService<Prisoner>> DeletePrisonerAsync(int pidn, string currentUserRole)
         {
             if (currentUserRole != "Admin")
             {
                 return new ResultService<Prisoner>(false, "You don't have the authorization to perform this action!");
             }
 
-            var prisoner = await context.Prisoners.FindAsync(id);
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
 
             if (prisoner == null)
             {
-                return new ResultService<Prisoner>(false,$"Prisoner with ID {id} Not Found!");
+                return new ResultService<Prisoner>(false,$"Prisoner with this PIDN does not exist!");
             }
             
             context.Prisoners.Remove(prisoner);
@@ -100,13 +111,12 @@ namespace PMS_Horus.Services
             {
                 return new ResultService<Prisoner>(false, "You don't have the authorization to perform this action!");
             }
-            if (pidn < 0)
-            {
-                return new ResultService<Prisoner>(false, "Invalid ID! Try Again!");
-            }
-
+            
             var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == pidn);
-
+            if (prisoner == null)
+            {
+                return new ResultService<Prisoner>(false, "No Prisoner found", prisoner);
+            }
             if (newValue.IsNullOrEmpty())
             {
                 return new ResultService<Prisoner>(false, "Invalid Data!");
@@ -144,7 +154,7 @@ namespace PMS_Horus.Services
                         throw new InvalidDataException("Invalid Option");
                 }
                 await context.SaveChangesAsync();
-                return new ResultService<Prisoner>(true, "Prisoner Updated");
+                return new ResultService<Prisoner>(true, "Prisoner Updated", prisoner);
             }
             catch
             {

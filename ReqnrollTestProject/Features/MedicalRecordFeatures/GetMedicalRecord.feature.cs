@@ -114,7 +114,7 @@ await testRunner.GivenAsync("The system is ready to get a medical record", ((str
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MedicalRecordFeatures/GetMedicalRecord.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MedicalRecordFeatures/GetMedicalRecord.feature.ndjson", 6);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -179,6 +179,127 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 11
  await testRunner.ThenAsync("The system will return the medical record for prisoner with PIDN 11221.", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Attempt to get medical record for non-existing prisoner")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "GetMedicalRecord")]
+        [global::Xunit.TraitAttribute("Description", "Attempt to get medical record for non-existing prisoner")]
+        public async global::System.Threading.Tasks.Task AttemptToGetMedicalRecordForNon_ExistingPrisoner()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Attempt to get medical record for non-existing prisoner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 13
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 14
+    await testRunner.GivenAsync("There are prisoners in the database.", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 15
+    await testRunner.WhenAsync("User tries to get Medical Record for prisoner with PIDN 00001", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 16
+    await testRunner.ThenAsync("The system should show an error saying \"No Prisoner Found With This PIDN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Attempt to get medical record for existing prisoner who has no medical record")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "GetMedicalRecord")]
+        [global::Xunit.TraitAttribute("Description", "Attempt to get medical record for existing prisoner who has no medical record")]
+        public async global::System.Threading.Tasks.Task AttemptToGetMedicalRecordForExistingPrisonerWhoHasNoMedicalRecord()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Attempt to get medical record for existing prisoner who has no medical record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 18
+ this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 19
+    await testRunner.GivenAsync("There are prisoners in the database.", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 20
+    await testRunner.AndAsync("The prisoner with PIDN 343123 does not have a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 21
+    await testRunner.WhenAsync("User tries to get Medical Record for prisoner with PIDN 343123", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 22
+    await testRunner.ThenAsync("The system should show an error saying \"No Med Records Available\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Attempt to get medical record without proper authorization (wrong role)")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "GetMedicalRecord")]
+        [global::Xunit.TraitAttribute("Description", "Attempt to get medical record without proper authorization (wrong role)")]
+        public async global::System.Threading.Tasks.Task AttemptToGetMedicalRecordWithoutProperAuthorizationWrongRole()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Attempt to get medical record without proper authorization (wrong role)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 24
+ this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 25
+    await testRunner.GivenAsync("There are prisoners in the database.", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 26
+    await testRunner.AndAsync("The prisoner with PIDN 11221 has a medical record.", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 27
+    await testRunner.AndAsync("User is assigned with \"Correctional Officer\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+    await testRunner.WhenAsync("User tries to get Medical Record for prisoner with PIDN 11221", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 29
+    await testRunner.ThenAsync("The system should show an error saying \"You are not authorized to perform this ac" +
+                        "tions!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

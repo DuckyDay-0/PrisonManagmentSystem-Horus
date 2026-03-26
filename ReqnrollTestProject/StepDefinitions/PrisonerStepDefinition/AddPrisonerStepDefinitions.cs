@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using PMS_Horus.Data;
 using PMS_Horus.Models;
 using PMS_Horus.Services;
@@ -91,6 +92,50 @@ namespace ReqnrollTestProject.StepDefinitions.PrisonerStepDefinition
         {
             Assert.Contains("There was a problem with the data being added. Try Again!", resultService.Message);
             Assert.False(resultService.Success);          
-        }      
+        }
+
+
+        [When("User tries to add a prisoner with Age {int}")]
+        public async Task WhenUserTriesToAddAPrisonerWithAge(int age)
+        {
+            var baseDate = new DateOnly(2023, 05, 10);
+
+            var prisoner = new Prisoner { FirstName = "Hary", LastName = "Jackson", Age = age, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 11221 };
+           resultService = await services.AddPrisonerAsync(prisoner, currentUserRole);
+        }
+       
+        [Then("User receives an error message saying {string} and no prisoner is added")]
+        public async Task ThenUserReceivesAnErrorMessageSayingAndNoPrisonerIsAdded(string message)
+        {
+            var prisoner = await context.Prisoners.FirstOrDefaultAsync(p => p.PersonalIDNumber == resultService.Data.PersonalIDNumber);
+            Assert.Null(prisoner);
+            Assert.Equal(message, resultService.Message);
+        }
+
+        [When("User tries to add a prisoner with negative Sentence Length")]
+        public void WhenUserTriesToAddAPrisonerWithNegativeSentenceLength()
+        {
+            throw new PendingStepException();
+        }
+
+        [Given("There is already a prisoner with PersonalIDNumber {int}")]
+        public void GivenThereIsAlreadyAPrisonerWithPersonalIDNumber(int pidn)
+        {
+            var baseDate = new DateOnly(2023, 05, 10);
+            var prisoners = new List<Prisoner>()
+            {
+                new Prisoner { FirstName = "Doni", LastName = "Donni", Age = 31, Crime = "Murder", EntryDate = baseDate, SentenceLenght = 2, ReleaseDate = baseDate.AddYears(2), PrisonBlock = "O Block", PrisonCell = 12, PersonalIDNumber = 0000}
+            };
+
+            context.Prisoners.AddRange(prisoners);
+            context.SaveChanges();
+        }
+
+        [When("User tries to add a prisoner with PersonalIDNumber {int}")]
+        public void WhenUserTriesToAddAPrisonerWithPersonalIDNumber(int pidn)
+        {
+            throw new PendingStepException();
+        }
+
     }
 }

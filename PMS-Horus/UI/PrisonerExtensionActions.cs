@@ -58,6 +58,10 @@ namespace PMS_Horus.UI
                     case 3:
                         await DeleteMedicalRecord();
                         break;
+
+                    case 4:
+                        await UpdateMedicalRecord();
+                        break;
                     case 0:
                         running = false;
                         break;
@@ -66,15 +70,30 @@ namespace PMS_Horus.UI
                         throw new Exception("Invalid Data.");
                 }
             }
+        }
 
+        public async Task UpdateMedicalRecord()
+        {
+            Console.Clear();
+            Console.WriteLine("Update Medical Record:");
+            Console.WriteLine("What do you want to update?");
+            Console.WriteLine("1.Blood Type.");
+            Console.WriteLine("2.Allergies.");
+            Console.WriteLine("3.Chronic Conditions.");
+            
+            int choice = int.Parse(Console.ReadLine());
 
+            Console.Write("Please Provide ID of the prisoner's medical record you want to update:");
+            int id = int.Parse(Console.ReadLine());
+            string newValue = Console.ReadLine();
+            await extensionServices.UpdateMedicalRecordAsync(id, choice, currentUserRole, newValue);
         }
         public async Task DeleteMedicalRecord()
         {
             Console.Clear();
             Console.WriteLine("Please enter the Prisoner's PIDN: ");
             int pidn = validationServices.ReadInt();
-            var result = await extensionServices.RemoveMedicalRecordAsync(pidn);
+            var result = await extensionServices.RemoveMedicalRecordAsync(pidn, currentUserRole);
 
             if (!result.Success)
             {
@@ -96,7 +115,7 @@ namespace PMS_Horus.UI
             Console.Clear();
             Console.Write("Please enter the Prisoner's Personal ID:");
             int prisonerId = validationServices.ReadInt();
-            var result = await extensionServices.GetMedicalRecordAsync(prisonerId);
+            var result = await extensionServices.GetMedicalRecordAsync(prisonerId, currentUserRole);
 
             if (!result.Success)
             {

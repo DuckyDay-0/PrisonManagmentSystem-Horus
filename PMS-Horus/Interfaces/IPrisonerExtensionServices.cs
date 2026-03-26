@@ -12,8 +12,8 @@ namespace PMS_Horus.Interfaces
     interface IPrisonerExtensionServices
     {
         Task<ResultService<MedicalRecord>> AddMedicalRecordAsync(MedicalRecord medicalRecord,string currentUserRole);
-        Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int prisonerId);
-        Task<ResultService<MedicalRecord>> UpdateMedicalRecordAsync(int prisonerId);
-        Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int prisonerId);
+        Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int pidn, string currentUserRole);
+        Task<ResultService<MedicalRecord>> UpdateMedicalRecordAsync(int prisonerId, int choice, string currentUserRole, string newValue);
+        Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int prisonerId, string currentUserRole);
     }   
 }

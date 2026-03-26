@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using PMS_Horus.Data;
 using PMS_Horus.Interfaces;
 using PMS_Horus.Models;
@@ -47,8 +48,12 @@ namespace PMS_Horus.Services
             }         
         }
 
-        public async Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int pidn)
+        public async Task<ResultService<MedicalRecord>> GetMedicalRecordAsync(int pidn, string currentUserRole)
         {
+            if (currentUserRole != "Admin" && currentUserRole != "Medic")
+            {
+                return new ResultService<MedicalRecord>(false, "You are not authorized to perform this actions!");
+            }
             var prisoner = context.Prisoners.FirstOrDefault(p => p.PersonalIDNumber == pidn);
             if (prisoner == null)
             {
@@ -63,9 +68,9 @@ namespace PMS_Horus.Services
             return new ResultService<MedicalRecord>(true, "Medical Record is Available", medRecord);
         }
 
-        public async Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int pidn)
+        public async Task<ResultService<MedicalRecord>> RemoveMedicalRecordAsync(int pidn, string currentUserRole)
         {
-            if (currentUserRole != "Admin" || currentUserRole != "Medic")
+            if (currentUserRole != "Admin" && currentUserRole != "Medic")
             {
                 return new ResultService<MedicalRecord>(false, "You are not authorized to perform this kind of action!");
             }
@@ -92,9 +97,48 @@ namespace PMS_Horus.Services
             }
         }
 
-        public Task<ResultService<MedicalRecord>> UpdateMedicalRecordAsync(int prisonerId)
+        public async Task<ResultService<MedicalRecord>> UpdateMedicalRecordAsync(int pidn, int choice, string currentUserRole, string newValue)
         {
-            throw new NotImplementedException();
+            if (currentUserRole != "Admin" && currentUserRole != "Medic")
+            {
+                return new ResultService<MedicalRecord>(false, "You don't have the authorization to perform this action!");
+            }
+
+            var medRecord  = await context.MedicalRecords.FirstOrDefaultAsync(p => p.Prisoner.PersonalIDNumber == pidn);
+            if (medRecord == null)
+            {
+                return new ResultService<MedicalRecord>(false, "No Prisoner found!");
+            }
+
+            if (newValue.IsNullOrEmpty())
+            {
+                return new ResultService<MedicalRecord>(false, "Invalid Data!");
+            }
+            try
+            {
+                switch (choice)
+                {
+                    case 1:
+                        medRecord.BloodType = newValue;
+                        break;
+                    case 2:
+                        medRecord.Allergies = newValue;
+                        break;
+                    case 3:
+                        medRecord.ChronicConditions = newValue;
+                        break;                  
+
+                    default:
+                        throw new InvalidDataException("Invalid Option");
+                }
+                await context.SaveChangesAsync();
+                return new ResultService<MedicalRecord>(true, "Medical Record Updated");
+            }
+            catch
+            {
+                return new ResultService<MedicalRecord>(false, "Error updating");
+            }
+
         }
     }
 }

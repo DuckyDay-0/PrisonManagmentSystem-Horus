@@ -114,7 +114,7 @@ await testRunner.GivenAsync("The system is ready for prisoner to be added", ((st
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/AddPrisoner.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PrisonerFeatures/AddPrisoner.feature.ndjson", 8);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -254,6 +254,121 @@ await this.FeatureBackgroundAsync();
 #line hidden
 #line 22
  await testRunner.ThenAsync("User receives an exception and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Trying to add a prisoner with invalid age (too young)")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Trying to add a prisoner with invalid age (too young)")]
+        public async global::System.Threading.Tasks.Task TryingToAddAPrisonerWithInvalidAgeTooYoung()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Trying to add a prisoner with invalid age (too young)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 25
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 26
+    await testRunner.GivenAsync("User is with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 27
+    await testRunner.WhenAsync("User tries to add a prisoner with Age 12", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 28
+    await testRunner.ThenAsync("User receives an error message saying \"Prisoner\'s Age can\'t be under 18! If he is" +
+                        " please refer to the correct facility!\" and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Trying to add a prisoner with negative sentence length")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Trying to add a prisoner with negative sentence length")]
+        public async global::System.Threading.Tasks.Task TryingToAddAPrisonerWithNegativeSentenceLength()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Trying to add a prisoner with negative sentence length", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 30
+ this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 31
+    await testRunner.GivenAsync("User is with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+    await testRunner.WhenAsync("User tries to add a prisoner with negative Sentence Length", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 33
+    await testRunner.ThenAsync("User receives an error message saying \"\" and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Trying to add a prisoner with duplicate PersonalIDNumber")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "AddPrisoner")]
+        [global::Xunit.TraitAttribute("Description", "Trying to add a prisoner with duplicate PersonalIDNumber")]
+        public async global::System.Threading.Tasks.Task TryingToAddAPrisonerWithDuplicatePersonalIDNumber()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "5";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Trying to add a prisoner with duplicate PersonalIDNumber", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 35
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 36
+    await testRunner.GivenAsync("User is with an \"Admin\" role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 37
+    await testRunner.AndAsync("There is already a prisoner with PersonalIDNumber 0000", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 38
+    await testRunner.WhenAsync("User tries to add a prisoner with PersonalIDNumber 0000", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 39
+    await testRunner.ThenAsync("User receives an error message saying \"\" and no prisoner is added", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

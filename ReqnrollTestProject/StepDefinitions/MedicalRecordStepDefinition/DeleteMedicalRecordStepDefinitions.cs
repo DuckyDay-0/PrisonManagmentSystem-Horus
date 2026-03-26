@@ -66,7 +66,7 @@ namespace ReqnrollTestProject.StepDefinitions.MedicalRecordStepDefinition
         [When("The user tries to delete the medical record for prisoner with PIDN {int}")]
         public async Task WhenTheUserTriesToDeleteTheMedicalRecordForPrisonerWithPIDN(int pidn)
         {
-            resultService = await extensionServices.RemoveMedicalRecordAsync(pidn);
+            resultService = await extensionServices.RemoveMedicalRecordAsync(pidn,currentUserRole);
         }
 
         [Then("The medical record will be removed from the database and message will be shown")]

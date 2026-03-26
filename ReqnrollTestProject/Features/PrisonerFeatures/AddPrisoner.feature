@@ -21,3 +21,19 @@ Scenario: Trying to add a prisoner with invalid Name
 	When User tries to add a prisoner with no Name
 	Then User receives an exception and no prisoner is added
 
+
+Scenario: Trying to add a prisoner with invalid age (too young)
+    Given User is with an "Admin" role
+    When User tries to add a prisoner with Age 12
+    Then User receives an error message saying "Prisoner's Age can't be under 18! If he is please refer to the correct facility!" and no prisoner is added
+
+ Scenario: Trying to add a prisoner with negative sentence length
+    Given User is with an "Admin" role
+    When User tries to add a prisoner with negative Sentence Length
+    Then User receives an error message saying "" and no prisoner is added
+
+Scenario: Trying to add a prisoner with duplicate PersonalIDNumber
+    Given User is with an "Admin" role
+    And There is already a prisoner with PersonalIDNumber 0000
+    When User tries to add a prisoner with PersonalIDNumber 0000
+    Then User receives an error message saying "" and no prisoner is added

@@ -28,7 +28,7 @@ Scenario: The user will try to delete a medical record for an existing prisoner 
 
 Scenario: The user will try to delete a medical record without the correct role
 	Given There are 3 prisoners registered in the system
+	But The user is assigned with a "Correctional Officer" role
 	And Prisoner with PIDN 11221 has a medical record
-	But The User is assigned a "Correctional Officer" role
 	When The user tries to delete the medical record for prisoner with PIDN 11221
 	Then Then the system will show a role error message and result service will return false
